@@ -71,17 +71,43 @@
 /*================= Product Table Display ============ */
 
 /* searchfeilds  */
+
+.searchbars {
+  display: flex;
+  justify-content: space-evenly;
+}
 .ProductPageSearchInputfields {
     margin-right: 10px;
 }
 
-.resetbutton {
-  margin-left: 20px;
+.ProductPageSearchInputfields{
+   border-radius: 6px;
+  padding: 4px;
+
+}
+.ProductPageSearchInputfields::placeholder{
+  color: #0056b3;
+}
+
+.ProductPageSearchInputfields:focus{
+
+  border-color: #0b7fdf;
+  outline: none;
+  color: #66afe9;
+
+}
+
+.resetbutton{
+  margin-left: 25px;
+  padding: 5px 10px ;
   background-color: #007bff;
-  color: white;
-  border-color: white;
-  border-radius: 6px;
-  padding: 4px 6px;
+  color:white ;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 4px;
+
+
 }
 
 

@@ -8,7 +8,7 @@ const MainSection = () => {
     <section className={styles.hero}>
       <div className={styles.heroContent}>
         <div className={styles.textArea}>
-          <p className={styles.subTitle}>Fresh Fresh Orange Lemon</p>
+          <p className={styles.subTitle}>Fresh Orange Lemon Juice</p>
           <h1 className={styles.price}>$14.00 <span>/ package</span></h1>
           <button className={styles.shopBtn}>Shop Now</button>
         </div>

@@ -57,8 +57,58 @@
 /* =============table============== */
 
 /* searchfeilds  */
+
+.categorypagesearchbars {
+  display: flex;
+  justify-content: space-evenly;
+}
 .categorypagesearchinputfields {
-    margin-right: 10px;
+  border-radius: 6px;
+  padding: 4px;
+ 
+}
+.categorypagesearchinputfields::placeholder{
+  color: #0056B3;
+}
+.categorypagesearchinputfields:focus {
+  border-color: #0b7fdf;
+  outline: none;
+  color: #66afe9;
+}
+
+
+/* .SearchActiveStatusLabel {
+  font-size: 70px;
+  color: #007bff;
+  background-color: red;
+
+} */
+
+
+
+.categorypagesearchbars, label{
+
+  color: #007bff;
+  font-size: large;
+  font-weight: 600;
+}
+
+
+
+.resetbutton{
+  margin-left: 25px;
+  padding: 5px 10px ;
+  background-color: #007bff;
+  color:white ;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 4px;
+
+
+}
+.resetbutton:hover{
+  background-color: #0056B3;
 }
 
 

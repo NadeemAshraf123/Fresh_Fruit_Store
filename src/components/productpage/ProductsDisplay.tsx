@@ -10,8 +10,11 @@ interface Product {
 }
 
 const ProductsDisplay: React.FC = () => {
+
+  
   const productsJSON = localStorage.getItem('products');
   const products: Product[] = productsJSON ? JSON.parse(productsJSON) : [];
+  console.log("ProductsJSON for display" , products);
 
 
   function chunkArray<T>(array: T[], size: number): T[][] {

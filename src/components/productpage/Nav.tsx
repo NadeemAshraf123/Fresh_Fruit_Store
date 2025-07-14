@@ -116,7 +116,7 @@ const Nav = () => {
   };
 
   console.log(
-    "Saved Products to localStorage:",
+    "Saved Products to localStorage by users at Addproduct page:",
     JSON.parse(localStorage.getItem("products") || "[]")
   );
 
@@ -131,7 +131,7 @@ const Nav = () => {
         </div>
 
         <ul className={styles.navlinks}>
-          <li>
+          <li className={styles.HomeNavTag}>
             {" "}
             <Link to="/"> Home </Link>{" "}
           </li>
@@ -146,7 +146,7 @@ const Nav = () => {
               className={styles.pagesbutton}
               onClick={HandlePagesDropdown}
             >
-              <Link to=""><strong> Pages </strong></Link>
+              <Link to=""><b> Pages </b></Link>
             </button>{" "}
             {isPagesDrop && (
               <ul className={styles.pagesdropmenu} ref={pagesDropRef}>
@@ -160,7 +160,9 @@ const Nav = () => {
                     Add Product{" "}
                   </button>{" "}
                 </li>
-                <li>
+
+
+                {/* <li>
                   {" "}
                   <button className={styles.pagesdropbutton}>
                     {" "}
@@ -173,7 +175,8 @@ const Nav = () => {
                     {" "}
                     Edit Product{" "}
                   </button>{" "}
-                </li>
+                </li> */}
+
                 <li>
                   <button
                     className={styles.pagesdropbutton}

@@ -21,9 +21,9 @@ const AddProducts = () => {
   const [searchCategory, setSearchCategory] = React.useState<string>("");
   const [searchFeatured, setSearchFeatured] = React.useState<string>("");
 
-  console.log("searchName", searchName);
-  console.log("searchCategory", searchCategory);
-  console.log("searchFeatured", searchFeatured);
+  // console.log("searchName", searchName);
+  // console.log("searchCategory", searchCategory);
+  // console.log("searchFeatured", searchFeatured);
 
 
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const AddProducts = () => {
     setUsersCategories(Categories);
   }, []);
 
-  console.log("usersCategories", usersCategories);
+  console.log("categories added by user at addcategory page", usersCategories);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -286,7 +286,7 @@ const AddProducts = () => {
           </div>
         </div>
 
-        <button type="submit" className={styles.button}>
+     <button type="submit" className={styles.button}>
           Add
         </button>
         <button type="button" onClick={BackToHome} className={styles.button}>
@@ -311,7 +311,7 @@ const AddProducts = () => {
           type="search"
           placeholder="search by Category..."
         />
-        <label htmlFor="featuredSelect">Is Featured:</label>
+        <label htmlFor="featuredSelect">Is Featured:
         <select
           value={searchFeatured}
           onChange={(e) => setSearchFeatured(e.target.value)}
@@ -320,6 +320,7 @@ const AddProducts = () => {
           <option value="true">Yes</option>
           <option value="false">No</option>
         </select>
+        </label>
 
         <button 
         onClick={handleRestfunctionality}

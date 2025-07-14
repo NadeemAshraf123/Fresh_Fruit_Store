@@ -43,6 +43,7 @@ margin-right: 10px;
   font-size: 1rem;
 }
 
+
 .navlinks li a {
   text-decoration: none;
   color: #000;
@@ -235,6 +236,25 @@ margin-right: 10px;
 
 .searchbar button:hover {
   background-color: #388e3c;
+}
+
+
+
+/* media queries ---- */
+
+@media (max-width: 768px) {
+  .mainnavbaar {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .HomeNavTag {
+    margin-left: 10px;
+  }
 }
 
 

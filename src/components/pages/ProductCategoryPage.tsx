@@ -50,7 +50,6 @@ const VisitCategorizedPage = () => {
         );
         setCategoryList(existingCategories);
 
-        // alert("Category added!");
         toast.success("Category Added");
         setProductCategoryName("");
         setProductImage(null);
@@ -112,6 +111,16 @@ const VisitCategorizedPage = () => {
   });
 
   console.log("normalized", searchActiveStatus);
+
+  const HandleResetFunctionality = () => {
+
+        if (!setSearchActiveStatus && !setSearchCategoryName) return ;
+        
+    toast.success("search feilds are reset");
+    setSearchActiveStatus("");
+    setSearchCategoryName("");
+
+  }
 
   return (
     <>
@@ -197,7 +206,7 @@ const VisitCategorizedPage = () => {
           placeholder="search by category Name..."
         />
 
-        <label>Is Active:</label>
+        <label className={styles.SearchActiveStatusLabel}>Is Active:
         <select
           value={searchActiveStatus}
           onChange={(e) => setSearchActiveStatus(e.target.value)}
@@ -206,11 +215,12 @@ const VisitCategorizedPage = () => {
           <option value="true">Yes</option>
           <option value="false">No</option>
         </select>
+        </label>
 
-        <p>{searchCategoryName}</p>
-
-        <p>{searchActiveStatus}</p>
+            <button className={styles.resetbutton} onClick={HandleResetFunctionality}> Reset </button>
       </div>
+
+
       {filteredCategories.length > 0 ? (
         <table className={styles.table}>
           <thead>

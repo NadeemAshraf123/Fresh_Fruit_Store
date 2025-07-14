@@ -50,34 +50,71 @@ console.log("firsts un-sorted array", arr);
 
 
 
+
+
+// let Arr = [] ; 
+// let Index = 0 ;
+
+// for ( let i = 0 ; i < duplicate.length; i++) {
+//   let element_existed = false ; 
+
+//   for (let j = 0; j < Arr.length ; j++) {
+
+//     if ( Arr[j] === duplicate[i]) {
+//       element_existed = true;
+//       break;
+//     }
+//   }
+  
+
+//   if (!element_existed) {
+//     Arr[Index] = duplicate[i];
+//     Index++;
+//   }
+
+// };
+// console.log("Remove Duplicate's:", Arr);
+
  const duplicate = [3,2,1,2,7,6,6,6,5,4,9,8,10];
 
 
-let Arr = [] ; 
-let Index = 0 ;
+let Arr = [] ;
+let Index = 0;
 
-for ( let i = 0 ; i < duplicate.length; i++) {
-  let element_existed = false ; 
-
-  for (let j = 0; j < Arr.length ; j++) {
-
-    if ( Arr[j] === duplicate[i]) {
-      element_existed = true;
-      break;
-    }
-  }
+for (let i = 0 ; i < duplicate.length; i++ ) {
   
+  for ( var j = 0 ; j < Arr.length; j++ ) {
 
-  if (!element_existed) {
-    Arr[Index] = duplicate[i];
-    Index++;
+      if ( Arr[j] === duplicate[i]) {
+        break;
+
+      }
+  
+    }
+if ( j === Arr.length) {
+  Arr[Index] = duplicate[i] ;
+  Index++
+}
+
+
+  }
+  console.log("withOUT---TRU--FALSEduplicate removal" , Arr);
+
+
+
+  let table = [ 1, 2, 3];
+
+
+  for (let i = 0 ; i < table.length ; i++) {
+    let i = table[0];
+    console.log("table" , i);
+
+
   }
 
-};
-console.log("Remove Duplicate's:", Arr);
 
 
-
+  
 
 
 
