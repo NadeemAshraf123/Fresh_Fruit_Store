@@ -85,17 +85,18 @@
   padding: 4px;
 
 }
-.ProductPageSearchInputfields::placeholder{
+/* .ProductPageSearchInputfields::placeholder{
   color: #0056b3;
-}
+} */
 
 .ProductPageSearchInputfields:focus{
 
-  border-color: #0b7fdf;
+  /* border-color: #0b7fdf;
   outline: none;
-  color: #66afe9;
+  color: #66afe9; */
 
 }
+
 
 .resetbutton{
   margin-left: 25px;

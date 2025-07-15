@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./FeaturesCards.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -46,8 +46,26 @@ console.log("firsts un-sorted array", arr);
   console.log("first---Sorting Array",  arr);
 
 
- 
 
+
+
+
+function Table(tableLimit , tableDigit ) {
+
+for (let i = 1; i <= tableLimit; i++) {
+
+ let result =  i * tableDigit ;
+
+      console.log("table of users gige" , `${tableDigit} x ${i} = ${result}`);
+}
+}
+Table(10, 5);
+
+
+//  useEffect(() => {
+//   console.log("coming check check")
+
+//  }, []);
 
 
 
@@ -108,6 +126,7 @@ if ( j === Arr.length) {
   for (let i = 0 ; i < table.length ; i++) {
     let i = table[0];
     console.log("table" , i);
+    
 
 
   }
@@ -177,6 +196,7 @@ if ( j === Arr.length) {
   
 
   return (
+    <>
     <div className={styles.featureContainer}>
       <div className={styles.card}>
         <FontAwesomeIcon icon={faTruck} className={styles.icon} />
@@ -196,6 +216,7 @@ if ( j === Arr.length) {
         <p>100% secure payment</p>
       </div>
     </div>
+    </>
   );
 };
 

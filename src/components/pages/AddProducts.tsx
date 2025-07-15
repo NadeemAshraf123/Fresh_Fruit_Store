@@ -10,7 +10,7 @@ const AddProducts = () => {
   const [productPrice, setProductPrice] = React.useState("");
   const [productImage, setProductImage] = React.useState<File | null>(null);
   const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
-  const [productCategory, setProductCategory] = React.useState<string>("");
+  const [productCategory, setProductCategory] = React.useState<string[]>([]);
   const [isFeatured, setIsFeatured] = React.useState<string>("false");
   const [tableProducts, setTableProducts] = React.useState<any[]>([]);
   const [isEditing, setIsEditing] = React.useState(false);
@@ -24,6 +24,7 @@ const AddProducts = () => {
   // console.log("searchName", searchName);
   // console.log("searchCategory", searchCategory);
   // console.log("searchFeatured", searchFeatured);
+  // console.log("user added product search category ------", searchCategory);
 
 
   const navigate = useNavigate();
@@ -33,15 +34,10 @@ const AddProducts = () => {
     setTableProducts(storedProducts);
 
     const Categories = JSON.parse(localStorage.getItem("categoryname") || "[]");
-
-    // const activeCategories = Categories.filter(
-    //   (category: any) => category.isActive === true
-    // );
-
     setUsersCategories(Categories);
   }, []);
 
-  console.log("categories added by user at addcategory page", usersCategories);
+  console.log("categories added by user at add category page", usersCategories);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,7 +69,7 @@ const AddProducts = () => {
         setProductName("");
         setProductPrice("");
         setProductImage(null);
-        setProductCategory("");
+        setProductCategory([]);
         setIsFeatured("false");
         setErrors({});
       };
@@ -82,6 +78,10 @@ const AddProducts = () => {
     }
   };
 
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
+    setProductCategory(selectedValues);
+  }
   const BackToHome = () => {
     navigate("/");
   };
@@ -103,7 +103,7 @@ const AddProducts = () => {
     if (!productImage) {
       newErrors.productImage = "Product image is required";
     }
-    if (!productCategory || productCategory === "") {
+    if (!productCategory || productCategory.length === 0) {
       newErrors.productCategory = "Please select a category";
     }
 
@@ -147,13 +147,6 @@ const AddProducts = () => {
     });
   };
 
-  // const formIsValid =
-  //   productName.trim() !== "" &&
-  //   productPrice.trim() !== "" &&
-  //   productCategory.trim() !== "" &&
-  //   productImage !== null &&
-  //   Object.keys(errors).length === 0;
-
   const checkFeaturedMatch = (
     itemIsFeatured: boolean,
     inputValue: string
@@ -170,7 +163,11 @@ const AddProducts = () => {
       .toLowerCase()
       .includes(searchName.toLowerCase());
 
-    const categoryMatch = usersCategories
+
+      
+    const categoryMatch =
+    
+    usersCategories
       .find((c) => c.id === item.category)
       ?.name.toLowerCase()
       .includes(searchCategory.toLowerCase());
@@ -221,14 +218,19 @@ const AddProducts = () => {
           )}
         </div>
 
+
         <div className={styles.formGroup}>
           <label className={styles.label}>
             Category:
             <select
+              multiple
               value={productCategory}
-              onChange={(e) => setProductCategory(e.target.value)}
+              onChange={handleCategoryChange}
               className={styles.input}
             >
+
+
+            <option value="" disabled hidden> Select Category </option>
               {usersCategories
                 .filter((category: any) => category.isActive === true)
                 .map((category: any, index) => (
@@ -242,6 +244,8 @@ const AddProducts = () => {
             <div className={styles.errorText}>{errors.productCategory}</div>
           )}
         </div>
+
+
 
         <div className={styles.formGroup}>
           <label className={styles.label}>
@@ -294,6 +298,8 @@ const AddProducts = () => {
         </button>
       </form>
 
+
+
       <h2 className={styles.AddProductstableheading}> Add Product Table</h2>
 
       <div className={styles.searchbars}>
@@ -304,13 +310,31 @@ const AddProducts = () => {
           type="search"
           placeholder="search by product..."
         />
-        <input
+
+
+
+
+          <select 
+          value={searchCategory}
+          onChange={(e) => setSearchCategory(e.target.value)}
+          className={styles.ProductPageSearchInputfields}
+          typeof="search"
+          >
+            <option value="" disabled hidden> Select Category</option>
+            {usersCategories.filter((category)=> category.isActive === true)
+            .map((category,index) => (
+              <option key={index} value={category.name}> {category.name} </option>
+            
+            ))}
+          </select>
+        {/* <input
           value={searchCategory}
           onChange={(e) => setSearchCategory(e.target.value)}
           className={styles.ProductPageSearchInputfields}
           type="search"
           placeholder="search by Category..."
-        />
+        /> */}
+        
         <label htmlFor="featuredSelect">Is Featured:
         <select
           value={searchFeatured}
@@ -325,14 +349,12 @@ const AddProducts = () => {
         <button 
         onClick={handleRestfunctionality}
         className={styles.resetbutton}
-        
         >
           Reset 
-        
         </button>
-
-
       </div>
+
+
 
       {/* {tableProducts.length > 0 ? ( */}
       {filteredProducts.length > 0 ? (
