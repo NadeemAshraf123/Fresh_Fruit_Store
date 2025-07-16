@@ -4,27 +4,25 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+type Category = { id: string; name: string; isActive: boolean };
 
-const AddProducts = () => {
+ const AddProducts = () => {
   const [productName, setProductName] = React.useState("");
   const [productPrice, setProductPrice] = React.useState("");
-  const [productImage, setProductImage] = React.useState<File | null>(null);
+  const [productImages, setProductImages] = React.useState<File[]>([]);
   const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
   const [productCategory, setProductCategory] = React.useState<string[]>([]);
   const [isFeatured, setIsFeatured] = React.useState<string>("false");
   const [tableProducts, setTableProducts] = React.useState<any[]>([]);
   const [isEditing, setIsEditing] = React.useState(false);
   const [editingProduct, setEditingProduct] = React.useState<any | null>(null);
-  const [usersCategories, setUsersCategories] = React.useState<string[]>([]);
+  const [usersCategories, setUsersCategories] = React.useState<Category[]>([]);
 
   const [searchName, setSearchName] = React.useState<string>("");
   const [searchCategory, setSearchCategory] = React.useState<string>("");
   const [searchFeatured, setSearchFeatured] = React.useState<string>("");
 
-  // console.log("searchName", searchName);
-  // console.log("searchCategory", searchCategory);
-  // console.log("searchFeatured", searchFeatured);
-  // console.log("user added product search category ------", searchCategory);
+
 
 
   const navigate = useNavigate();
@@ -37,50 +35,56 @@ const AddProducts = () => {
     setUsersCategories(Categories);
   }, []);
 
-  console.log("categories added by user at add category page", usersCategories);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
-    if (productImage) {
-      const reader = new FileReader();
+    if (productImages.length > 0) {
+      const imagePromises = productImages.map((file) => {
+        return new Promise<string>((resolve, reject) => {
+          const reader = new FileReader() ;
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      });
 
-      reader.onloadend = () => {
+      Promise.all(imagePromises).then((base64Images) => {
         const newProduct = {
           id: uuidv4(),
           name: productName,
           price: productPrice,
-          image: reader.result as string,
+          images: base64Images,
           category: productCategory,
-          isFeatured: isFeatured === "true",
-        };
-
-        const existingProducts = JSON.parse(
-          localStorage.getItem("products") || "[]"
-        );
+          isFeatured: isFeatured === "true"
+        }
+        const existingProducts = JSON.parse(localStorage.getItem("products") || "[]");
         existingProducts.push(newProduct);
-
-        localStorage.setItem("products", JSON.stringify(existingProducts));
+        localStorage.setItem("products" ,  JSON.stringify(existingProducts));
         setTableProducts(existingProducts);
-
-        // alert("Product added!");
-        toast.success("Product added successfully");
+        toast.success("Product added successfully with image(s)");
         setProductName("");
         setProductPrice("");
-        setProductImage(null);
+        setProductImages([]);
         setProductCategory([]);
         setIsFeatured("false");
         setErrors({});
-      };
 
-      reader.readAsDataURL(productImage);
+      })
     }
-  };
+  }
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+
+  const handleCategoryChange = (e:any) => {
     const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
     setProductCategory(selectedValues);
+  }
+  const handleImageChange = (e: any) => {
+        if (e.target.files) {
+          const filesArray = Array.from(e.target.files);
+          setProductImages(filesArray)
+        } 
   }
   const BackToHome = () => {
     navigate("/");
@@ -100,7 +104,7 @@ const AddProducts = () => {
       newErrors.productPrice =
         "Product price should be in dollars (e.g., $12.99)";
     }
-    if (!productImage) {
+    if ( productImages.length === 0 ) {
       newErrors.productImage = "Product image is required";
     }
     if (!productCategory || productCategory.length === 0) {
@@ -164,15 +168,21 @@ const AddProducts = () => {
       .includes(searchName.toLowerCase());
 
 
+      console.log("tableproducts" , tableProducts);
       
     const categoryMatch =
     
-    usersCategories
-      .find((c) => c.id === item.category)
-      ?.name.toLowerCase()
-      .includes(searchCategory.toLowerCase());
+    Array.isArray(item.category)
+       ? usersCategories 
+            .filter((c) => item.category.includes(c.id))
+            .some((c) => c.name.toLowerCase().includes(searchCategory.toLowerCase()))
+         : usersCategories
 
-    const featuredMatch = checkFeaturedMatch(item.isFeatured, searchFeatured);
+                .find((c) => c.id === item.category)
+                ?.name.toLowerCase()
+                .includes(searchCategory.toLowerCase());
+
+    const featuredMatch = checkFeaturedMatch(item.isFeatured, searchFeatured); 
 
     return nameMatch && categoryMatch && featuredMatch;
   });
@@ -181,11 +191,10 @@ const AddProducts = () => {
         setSearchName("");
         setSearchCategory("");
         setSearchFeatured("");
-
-
   }
 
   return (
+
     <>
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <div className={styles.formGroup}>
@@ -253,9 +262,9 @@ const AddProducts = () => {
             <input
               type="file"
               accept="image/*"
-              onChange={(e) =>
-                setProductImage(e.target.files ? e.target.files[0] : null)
-              }
+              multiple
+              // onChange={(e) =>  setProductImage(e.target.files ? e.target.files[0] : null)}
+                onChange = {handleImageChange}
               className={styles.input}
             />
           </label>
@@ -310,10 +319,6 @@ const AddProducts = () => {
           type="search"
           placeholder="search by product..."
         />
-
-
-
-
           <select 
           value={searchCategory}
           onChange={(e) => setSearchCategory(e.target.value)}
@@ -376,23 +381,45 @@ const AddProducts = () => {
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
-                {/* <td>{item.category}</td> */}
+
                 <td>
-                  {usersCategories.find((c) => c.id === item.category)?.name ||
-                    "Unknown"}
+                  {Array.isArray(item.category) ? (
+                    <ul style={{padding: 0, margin: 0, listStyle:"desimal"}} >
+                   {usersCategories 
+                            .filter((c) => item.category.includes(c.id))
+                              .map((c) => (
+                        <li key={c.id} style={{ margin:'16px',textIndent:'-4px', padding: " 4px 0"}}>
+                              {c.name}
+                              </li>
+                            ))}
+                        </ul>      
+                  ) : ( 
+                       usersCategories.find((c) => c.id === item.category)?.name || "Unknown"
+                    )}
                 </td>
 
                 <td>
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "8px",
-                    }}
-                  />
+                  {Array.isArray(item.images) ? (
+                     item.images.map((imgSrc: string, i: number) => (
+                    <img 
+                    key={i}
+                    src={imgSrc} 
+                    alt={`${item.name}-${i}`}
+                    style={{width: '50px', height: '50px' , borderRadius: '8px' , marginRight: '5px' }} 
+                     />
+                  ))
+
+                 ) : item.image ? (
+                    <img 
+                      src={item.image}
+                      alt={item.name}
+                      style={{width: '50px', height: '50px' , borderRadius: '8PX' ,marginRight: '5px' }}
+                      />
+                  ) : null}
+                 
                 </td>
+
+
                 <td>{item.isFeatured ? "yes" : "No"}</td>
 
                 <td>
@@ -528,6 +555,7 @@ const AddProducts = () => {
       <ToastContainer />
     </>
   );
-};
+}
+
 
 export default AddProducts;
