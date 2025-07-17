@@ -131,16 +131,6 @@ if ( j === Arr.length) {
 
   }
 
-
-
-  
-
-
-
-
-
-
-
   // for(let i = 0; i < array.length ; i++) {
   //         if ()
   //         console.log("sorted-----sorted" , sorted)
