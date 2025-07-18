@@ -126,7 +126,7 @@ type Category = { id: string; name: string; isActive: boolean };
   };
 
   const saveEditProduct = () => {
-    const updatedList = tableProducts.map((p) =>
+    const updatedList = tableProducts.map((p) => 
       p.id === editingProduct.id ? editingProduct : p
     );
 
@@ -166,12 +166,9 @@ type Category = { id: string; name: string; isActive: boolean };
     const nameMatch = item.name
       .toLowerCase()
       .includes(searchName.toLowerCase());
-
-
       console.log("tableproducts" , tableProducts);
       
     const categoryMatch =
-    
     Array.isArray(item.category)
        ? usersCategories 
             .filter((c) => item.category.includes(c.id))
@@ -238,12 +235,11 @@ type Category = { id: string; name: string; isActive: boolean };
               className={styles.input}
             >
 
-
             <option value="" disabled hidden> Select Category </option>
               {usersCategories
                 .filter((category: any) => category.isActive === true)
                 .map((category: any, index) => (
-                  <option key={index} value={category.id}>
+                  <option key={index} value={`${category.id} | ${category.name}`}>
                     {category.name}
                   </option>
                 ))}

@@ -8,27 +8,28 @@ import {
   faUser,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import Lemon from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/Lemon.jpeg";
-import LemonTwo from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/LemonTwo.jpeg";
-import GreenApples from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/GreenApples.jpeg";
-import JuicyMelon from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/JuicyMelon.jpeg";
-import MixedBerry from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/MixedBerry.jpeg";
-import Pack from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/Pack.jpeg";
-import RedApples from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/RedApples.jpeg";
-import Strawberry from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/Strawberry.jpeg";
 
-const productImages: Record<string, string> = {
-  lemon: Lemon,
-  lemontwo: LemonTwo,
-  apple: RedApples,
-  greenapples: GreenApples,
-  redapples: RedApples,
-  strawberry: Strawberry,
-  pineapple: Pack,
-  juicymelon: JuicyMelon,
-  mixedberry: MixedBerry,
-  pack: Pack,
-};
+// import Lemon from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/Lemon.jpeg";
+// import LemonTwo from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/LemonTwo.jpeg";
+// import GreenApples from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/GreenApples.jpeg";
+// import JuicyMelon from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/JuicyMelon.jpeg";
+// import MixedBerry from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/MixedBerry.jpeg";
+// import Pack from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/Pack.jpeg";
+// import RedApples from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/RedApples.jpeg";
+// import Strawberry from "/home/enigmatix/Music/reactTypescript/my-app/src/assets/fruits/Strawberry.jpeg";
+
+// const productImages: Record<string, string> = {
+//   lemon: Lemon,
+//   lemontwo: LemonTwo,
+//   apple: RedApples,
+//   greenapples: GreenApples,
+//   redapples: RedApples,
+//   strawberry: Strawberry,
+//   pineapple: Pack,
+//   juicymelon: JuicyMelon,
+//   mixedberry: MixedBerry,
+//   pack: Pack,
+// };
 
 type Product = {
   name: string;

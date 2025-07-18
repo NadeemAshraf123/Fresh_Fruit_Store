@@ -1,97 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ProductsDisplay.module.css';
 
 interface Product {
+  id: string;
   name: string;
-  image: string;
-  category: 'fruit' | 'vegetable';
   price: string;
-  isFeatured?: boolean; 
+  images: string[];
+  categories: string[];
+  isFeatured: boolean;
 }
 
 const ProductsDisplay: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [showAllFeatured, setShowAllFeatured] = useState(false);
 
-  
-  const productsJSON = localStorage.getItem('products');
-  const products: Product[] = productsJSON ? JSON.parse(productsJSON) : [];
-  console.log("ProductsJSON for product display" , products);
+  useEffect(() => {
+    const productsJSON = localStorage.getItem('products');
+    const parsed = productsJSON ? JSON.parse(productsJSON) : [];
+    setProducts(parsed);
+  }, []);
 
+  const featuredProducts = products.filter(p => p.isFeatured);
 
-  function chunkArray<T>(array: T[], size: number): T[][] {
-  const result: T[][] = [];
-  for (let i = 0; i < array.length; i += size) {
-    result.push(array.slice(i, i + size));
+  const chunkedFeatured: Product[][] = [];
+  for (let i = 0; i < featuredProducts.length; i += 4) {
+    chunkedFeatured.push(featuredProducts.slice(i, i + 4));
   }
-  return result;
-}
 
-
-const fruits = products.filter(p => p.category === 'fruit');
-const vegetables = products.filter(p => p.category === 'vegetable');
-
-const featuredFruits = fruits.filter(p => p.isFeatured);
-const unfeaturedFruits = fruits.filter(p => !p.isFeatured);
-
-const featuredVegetables = vegetables.filter(p => p.isFeatured);
-const unfeaturedVegetables = vegetables.filter(p => !p.isFeatured);
-
-
-
-  const renderDynamicRow = (items: Product[], title: string) => {
-  const chunkedRows = chunkArray(items, 4);
   return (
     <>
-      <div className={styles.sectionHeader}>
-        <h2>{title}</h2>
-      </div>
-      <div className={styles.outerContainer}>
-      <div className={styles.contentWrapper}>
-      {chunkedRows.map((rowItems, rowIndex) => (
-        <div className={styles.cardRow} key={`${title}-row-${rowIndex}`}>
-          {rowItems.map((product, index) => (
-            <div className={styles.card} key={`${title}-${rowIndex}-${index}`}>
-              <img src={product.image} alt={product.name} />
-              <h4>{product.name}</h4>
-              <p className={styles.prices}>
-                <span className={styles.new}>{product.price}</span>
-              </p>
+      <h1 style={{ textAlign: "center", color: "#388e3c" }}>Product Display</h1>
+
+      <button onClick={() => setShowAllFeatured(true)} className={styles.allButton}>
+         All 
+      </button>
+
+      {showAllFeatured && chunkedFeatured.map((row, rowIndex) => (
+        <div className={styles.row} key={rowIndex}>
+          {row.map(product => (
+            <div className={styles.productCard} key={product.id}>
+              <img src={product.images?.[0]} alt={product.name} />
+              <h3>{product.name}</h3>
+              <p>{product.price}</p>
             </div>
           ))}
         </div>
       ))}
-      </div>
-      </div>
     </>
-  );
-};
-
-
-
-  return (
-    <section className={styles.wrapper}>
-     
-      {featuredFruits.length > 0 && renderDynamicRow(featuredFruits, 'Featured Fruits')}
-
-
-      
-      <div className={styles.sectionHeader}>
-        <h2>Featured Product</h2>
-        <div className={styles.filters}>
-          <a href="#">ALL</a>
-          <a href="#">ORANGES</a>
-          <a href="#">FRESH MEAT</a>
-          <a href="#">VEGETABLES</a>
-          <a href="#">FASTFOOD</a>
-        </div>
-      </div>
-
-{featuredVegetables.length > 0 && renderDynamicRow(featuredVegetables, 'Featured Vegetables')}
-
-
-{unfeaturedFruits.length > 0 && renderDynamicRow(unfeaturedFruits, 'Fruit Products')}
-{unfeaturedVegetables.length > 0 && renderDynamicRow(unfeaturedVegetables, 'Vegetable Products')}
-
-    </section>
   );
 };
 
