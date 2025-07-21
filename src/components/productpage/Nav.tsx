@@ -54,6 +54,8 @@ const Nav = () => {
   const dropdownRef = useRef<HTMLUListElement>(null);
   const pagesDropRef = useRef<HTMLUListElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const [productImages, setProductImages] = useState<string[]>([]);
+
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -93,16 +95,19 @@ const Nav = () => {
   };
 
   const handleSearch = () => {
-    const data = searchValues.trim().toLowerCase();
-    console.log(data);
-    const foundItem = dummyProducts.find(
-      (item) =>
-        item.name.toLowerCase().includes(data) || item.price.includes(data)
-    );
+  const data = localStorage.getItem("products") || "[]";
+  const JSONProducts = JSON.parse(data); 
 
-    setSelectedProduct(foundItem || null);
-    setIsModalOpen(true);
-  };
+  const query = searchValues.trim().toLowerCase();
+
+  const foundItem = JSONProducts.find((item: any) =>
+    item.name.toLowerCase().includes(query) || item.price.toLowerCase().includes(query)
+  );
+
+  setSelectedProduct(foundItem || null);
+  setIsModalOpen(true);
+};
+
 
   const HandlePagesDropdown = () => {
     setIsPagesDrop((prev) => !prev);
@@ -138,7 +143,7 @@ const Nav = () => {
           </li>
           <li>
             {" "}
-            <Link to=""> <strong> Shop  </strong></Link>{" "}
+            <Link to="">  Shop  </Link>{" "}
           </li>
 
           <li className={styles.pagesdrop}>
@@ -147,7 +152,7 @@ const Nav = () => {
               className={styles.pagesbutton}
               onClick={HandlePagesDropdown}
             >
-              <Link to=""><b> Pages </b></Link>
+              <Link to=""> Pages </Link>
             </button>{" "}
             {isPagesDrop && (
               <ul className={styles.pagesdropmenu} ref={pagesDropRef}>
@@ -161,22 +166,6 @@ const Nav = () => {
                     Add Product{" "}
                   </button>{" "}
                 </li>
-
-
-                {/* <li>
-                  {" "}
-                  <button className={styles.pagesdropbutton}>
-                    {" "}
-                    Delete Product{" "}
-                  </button>{" "}
-                </li>
-                <li>
-                  {" "}
-                  <button className={styles.pagesdropbutton}>
-                    {" "}
-                    Edit Product{" "}
-                  </button>{" "}
-                </li> */}
 
                 <li>
                   <button
@@ -274,27 +263,25 @@ const Nav = () => {
               ✕
             </button>
 
-            {selectedProduct ? (
-              <>
-                <img
-                  //   src={`/images/${selectedProduct.name.toLowerCase()}.png`}
-                  src={
-                    productImages[selectedProduct.name.toLowerCase()] || Pack
-                  }
-                  alt={selectedProduct.name}
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    objectFit: "cover",
-                    marginBottom: "10px",
-                  }}
-                />
-                <h2>{selectedProduct.name}</h2>
-                <p>Price: ${selectedProduct.price}</p>
-              </>
-            ) : (
-              <p>No matching product found...</p>
-            )}
+           {selectedProduct ? (
+  <>
+    <img
+      src={selectedProduct.images?.[0] || Pack} // Use first image from product
+      alt={selectedProduct.name}
+      style={{
+        width: "100px",
+        height: "100px",
+        objectFit: "cover",
+        marginBottom: "10px",
+      }}
+    />
+    <h2>{selectedProduct.name}</h2>
+    <p>Price: ${selectedProduct.price}</p>
+  </>
+) : (
+  <p>No matching product found...</p>
+)}
+
           </div>
         </div>
       )}
