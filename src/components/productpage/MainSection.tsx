@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './MainSection.module.css';
-// import FeatureCards from './FeaturesCards';
+import main from '../../assets/fruits/main.jpg';
 
 const MainSection = () => {
   return (
     <>
-    <section className={styles.hero}>
+    <section className={styles.hero} style={{ backgroundImage: `url(${main})` }}>
       <div className={styles.heroContent}>
         <div className={styles.textArea}>
           <p className={styles.subTitle}>Fresh Orange Lemon Juice</p>

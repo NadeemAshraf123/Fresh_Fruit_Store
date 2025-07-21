@@ -35,6 +35,7 @@ type Category = { id: string; name: string; isActive: boolean };
     setUsersCategories(Categories);
   }, []);
 
+  // console.log("Users Categories:", usersCategories.map((c) => c.name) );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -166,7 +167,8 @@ type Category = { id: string; name: string; isActive: boolean };
     const nameMatch = item.name
       .toLowerCase()
       .includes(searchName.toLowerCase());
-      console.log("tableproducts" , tableProducts);
+
+      // console.log("tableproducts" , tableProducts);
       
     const categoryMatch =
     Array.isArray(item.category)
