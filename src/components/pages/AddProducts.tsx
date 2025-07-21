@@ -11,7 +11,7 @@ type Category = { id: string; name: string; isActive: boolean };
   const [productPrice, setProductPrice] = React.useState("");
   const [productImages, setProductImages] = React.useState<File[]>([]);
   const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
-  const [productCategory, setProductCategory] = React.useState<string[]>([]);
+  const [productCategory, setProductCategory] = React.useState<string>("");
   const [isFeatured, setIsFeatured] = React.useState<string>("false");
   const [tableProducts, setTableProducts] = React.useState<any[]>([]);
   const [isEditing, setIsEditing] = React.useState(false);
@@ -77,10 +77,10 @@ type Category = { id: string; name: string; isActive: boolean };
   }
 
 
-  const handleCategoryChange = (e:any) => {
-    const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
-    setProductCategory(selectedValues);
-  }
+  // const handleCategoryChange = (e:any) => {
+  //   const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
+  //   setProductCategory(selectedValues);
+  // }
   const handleImageChange = (e: any) => {
         if (e.target.files) {
           const filesArray = Array.from(e.target.files);
@@ -233,7 +233,7 @@ type Category = { id: string; name: string; isActive: boolean };
             <select
               multiple
               value={productCategory}
-              onChange={handleCategoryChange}
+              onChange={(e) => setProductCategory(e.target.value)}
               className={styles.input}
             >
 
