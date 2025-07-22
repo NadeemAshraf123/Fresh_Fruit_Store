@@ -76,15 +76,10 @@ type Category = { id: string; name: string; isActive: boolean };
     }
   }
 
-
-  // const handleCategoryChange = (e:any) => {
-  //   const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
-  //   setProductCategory(selectedValues);
-  // }
   const handleImageChange = (e: any) => {
         if (e.target.files) {
           const filesArray = Array.from(e.target.files);
-          setProductImages(filesArray)
+          setProductImages(filesArray);
         } 
   }
   const BackToHome = () => {
@@ -168,7 +163,7 @@ type Category = { id: string; name: string; isActive: boolean };
       .toLowerCase()
       .includes(searchName.toLowerCase());
 
-      // console.log("tableproducts" , tableProducts);
+      console.log("tableproducts" , tableProducts);
       
     const categoryMatch =
     Array.isArray(item.category)

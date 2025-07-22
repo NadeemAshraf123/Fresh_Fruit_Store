@@ -36,24 +36,16 @@ const ProductsDisplay = () => {
     <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
       <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Product's Display</h1>
       
-      {/* Category Buttons */}
       <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '30px', flexWrap: 'wrap' }}>
         {categories.map((category, index) => (
           <button
             key={index}
             onClick={() => handleFilter(category)}
-            style={{
-              padding: '8px 16px',
-              borderRadius: '20px',
-              border: 'none',
-              background: activeCategory === category ? '#ddd' : '#f0f0f0',
-              cursor: 'pointer',
-              fontWeight: 'bold',
-              textTransform: 'capitalize'
-            }}
+            style={{ padding: '8px 16px', borderRadius: '20px', border: 'none', background: activeCategory === category ? '#ddd' : '#f0f0f0', cursor: 'pointer', fontWeight: 'bold', textTransform: 'capitalize'}}
           >
             {category}
           </button>
+          
         ))}
       </div>
     
@@ -62,34 +54,18 @@ const ProductsDisplay = () => {
           {activeCategory} ({currentProducts.length})
         </h2>
         
-        {/* Products Grid */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', 
-          gap: '20px',
-          justifyContent: 'center'
+        <div style={{  display: 'grid',  gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',  gap: '20px', justifyContent: 'center'
         }}>
           {currentProducts.map((product, index) => (
             <div 
               key={index} 
-              style={{
-                border: '1px solid #ddd',
-                borderRadius: '8px',
-                padding: '15px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
+              style={{border: '1px solid #ddd',borderRadius: '8px',padding: '15px',display: 'flex',flexDirection: 'column',alignItems: 'center'
               }}
             >
               <img 
                 src={product.images?.[0]} 
                 alt={product.name} 
-                style={{ 
-                  width: '100%', 
-                  height: '180px', 
-                  objectFit: 'cover',
-                  borderRadius: '4px',
-                  marginBottom: '10px' 
+                style={{  width: '100%',  height: '180px',  objectFit: 'cover', borderRadius: '4px', marginBottom: '10px' 
                 }} 
               />
 
