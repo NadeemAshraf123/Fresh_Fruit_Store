@@ -33,6 +33,8 @@ const ProductsDisplay = () => {
   const currentProducts = groupedProducts[activeCategory] || [];
 
   return (
+    <>
+
     <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
       <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Product's Display</h1>
       
@@ -82,6 +84,8 @@ const ProductsDisplay = () => {
         </div>
       </div>
     </div>
+    <h1>dosplay Products component will displayed</h1>
+    </>
   );
 };
 
