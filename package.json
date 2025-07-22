@@ -32,5 +32,18 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.34.1",
     "vite": "^7.0.0"
-  }
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NadeemAshraf123/Fresh_Fruit_Store.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NadeemAshraf123/Fresh_Fruit_Store/issues"
+  },
+  "homepage": "https://github.com/NadeemAshraf123/Fresh_Fruit_Store#readme"
 }

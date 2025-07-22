@@ -15,6 +15,9 @@ const ProductsDisplay = () => {
     }
   }, []);
 
+  console.log("products" , products);
+
+
   const handleFilter = (category: string) => {
     setActiveCategory(category);
   };
@@ -84,7 +87,7 @@ const ProductsDisplay = () => {
         </div>
       </div>
     </div>
-    <h1>dosplay Products component will displayed</h1>
+    {/* <h1>dosplay Products component will displayed</h1> */}
     </>
   );
 };

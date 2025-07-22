@@ -4,14 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 type Category = { id: string; name: string; isActive: boolean };
 
- const AddProducts = () => {
+const AddProducts = () => {
   const [productName, setProductName] = React.useState("");
   const [productPrice, setProductPrice] = React.useState("");
   const [productImages, setProductImages] = React.useState<File[]>([]);
   const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
-  const [productCategory, setProductCategory] = React.useState<string>("");
+  const [productCategory, setProductCategory] = React.useState<string[]>([]);
   const [isFeatured, setIsFeatured] = React.useState<string>("false");
   const [tableProducts, setTableProducts] = React.useState<any[]>([]);
   const [isEditing, setIsEditing] = React.useState(false);
@@ -21,9 +22,6 @@ type Category = { id: string; name: string; isActive: boolean };
   const [searchName, setSearchName] = React.useState<string>("");
   const [searchCategory, setSearchCategory] = React.useState<string>("");
   const [searchFeatured, setSearchFeatured] = React.useState<string>("");
-
-
-
 
   const navigate = useNavigate();
 
@@ -35,8 +33,6 @@ type Category = { id: string; name: string; isActive: boolean };
     setUsersCategories(Categories);
   }, []);
 
-  // console.log("Users Categories:", usersCategories.map((c) => c.name) );
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
@@ -44,7 +40,7 @@ type Category = { id: string; name: string; isActive: boolean };
     if (productImages.length > 0) {
       const imagePromises = productImages.map((file) => {
         return new Promise<string>((resolve, reject) => {
-          const reader = new FileReader() ;
+          const reader = new FileReader();
           reader.onloadend = () => resolve(reader.result as string);
           reader.onerror = reject;
           reader.readAsDataURL(file);
@@ -57,31 +53,34 @@ type Category = { id: string; name: string; isActive: boolean };
           name: productName,
           price: productPrice,
           images: base64Images,
-          category: productCategory,
+          category: productCategory, // Array of category IDs
           isFeatured: isFeatured === "true"
-        }
+        };
+        
         const existingProducts = JSON.parse(localStorage.getItem("products") || "[]");
         existingProducts.push(newProduct);
-        localStorage.setItem("products" ,  JSON.stringify(existingProducts));
+        localStorage.setItem("products", JSON.stringify(existingProducts));
         setTableProducts(existingProducts);
         toast.success("Product added successfully with image(s)");
+        
+        // Reset form
         setProductName("");
         setProductPrice("");
         setProductImages([]);
         setProductCategory([]);
         setIsFeatured("false");
         setErrors({});
-
-      })
+      });
     }
-  }
+  };
 
   const handleImageChange = (e: any) => {
-        if (e.target.files) {
-          const filesArray = Array.from(e.target.files);
-          setProductImages(filesArray);
-        } 
-  }
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files) as File[];
+      setProductImages(filesArray);
+    }
+  };
+
   const BackToHome = () => {
     navigate("/");
   };
@@ -96,13 +95,12 @@ type Category = { id: string; name: string; isActive: boolean };
     const priceValue = Number(productPrice);
     if (!productPrice || isNaN(priceValue) || priceValue <= 0) {
       newErrors.productPrice = "Valid product price is required";
-    } else if (!/^\$?\d+(\.\d{1,2})?$/.test(productPrice)) {
-      newErrors.productPrice =
-        "Product price should be in dollars (e.g., $12.99)";
     }
-    if ( productImages.length === 0 ) {
+
+    if (productImages.length === 0) {
       newErrors.productImage = "Product image is required";
     }
+
     if (!productCategory || productCategory.length === 0) {
       newErrors.productCategory = "Please select a category";
     }
@@ -112,7 +110,7 @@ type Category = { id: string; name: string; isActive: boolean };
   };
 
   const startEdit = (product: any) => {
-    setEditingProduct(product);
+    setEditingProduct({ ...product });
     setIsEditing(true);
   };
 
@@ -122,7 +120,7 @@ type Category = { id: string; name: string; isActive: boolean };
   };
 
   const saveEditProduct = () => {
-    const updatedList = tableProducts.map((p) => 
+    const updatedList = tableProducts.map((p) =>
       p.id === editingProduct.id ? editingProduct : p
     );
 
@@ -130,6 +128,7 @@ type Category = { id: string; name: string; isActive: boolean };
     setTableProducts(updatedList);
     setIsEditing(false);
     setEditingProduct(null);
+    toast.success("Product updated successfully");
   };
 
   const deleteProduct = (id: string) => {
@@ -137,7 +136,7 @@ type Category = { id: string; name: string; isActive: boolean };
     localStorage.setItem("products", JSON.stringify(filtered));
     setTableProducts(filtered);
 
-    toast.success("deleted successfully:", {
+    toast.success("Product deleted successfully", {
       position: "top-right",
       autoClose: 500,
       hideProgressBar: false,
@@ -163,32 +162,30 @@ type Category = { id: string; name: string; isActive: boolean };
       .toLowerCase()
       .includes(searchName.toLowerCase());
 
-      console.log("tableproducts" , tableProducts);
-      
-    const categoryMatch =
-    Array.isArray(item.category)
-       ? usersCategories 
-            .filter((c) => item.category.includes(c.id))
-            .some((c) => c.name.toLowerCase().includes(searchCategory.toLowerCase()))
-         : usersCategories
+    const categoryMatch = searchCategory === "" || 
+      (Array.isArray(item.category) 
+        ? item.category.some((catId: string) => {
+            const category = usersCategories.find(c => c.id === catId);
+            return category?.name.toLowerCase().includes(searchCategory.toLowerCase());
+          })
+        : (() => {
+            const category = usersCategories.find(c => c.id === item.category);
+            return category?.name.toLowerCase().includes(searchCategory.toLowerCase());
+          })()
+      );
 
-                .find((c) => c.id === item.category)
-                ?.name.toLowerCase()
-                .includes(searchCategory.toLowerCase());
-
-    const featuredMatch = checkFeaturedMatch(item.isFeatured, searchFeatured); 
+    const featuredMatch = checkFeaturedMatch(item.isFeatured, searchFeatured);
 
     return nameMatch && categoryMatch && featuredMatch;
   });
 
-  const handleRestfunctionality = () => {
-        setSearchName("");
-        setSearchCategory("");
-        setSearchFeatured("");
-  }
+  const handleResetFunctionality = () => {
+    setSearchName("");
+    setSearchCategory("");
+    setSearchFeatured("");
+  };
 
   return (
-
     <>
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <div className={styles.formGroup}>
@@ -221,22 +218,23 @@ type Category = { id: string; name: string; isActive: boolean };
           )}
         </div>
 
-
         <div className={styles.formGroup}>
           <label className={styles.label}>
             Category:
             <select
               multiple
               value={productCategory}
-              onChange={(e) => setProductCategory(e.target.value)}
+              onChange={(e) => {
+                const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
+                setProductCategory(selectedValues);
+              }}
               className={styles.input}
             >
-
-            <option value="" disabled hidden> Select Category </option>
+              <option value="" disabled hidden>Select Category</option>
               {usersCategories
-                .filter((category: any) => category.isActive === true)
-                .map((category: any, index) => (
-                  <option key={index} value={`${category.id} | ${category.name}`}>
+                .filter((category) => category.isActive === true)
+                .map((category, index) => (
+                  <option key={index} value={category.id}>
                     {category.name}
                   </option>
                 ))}
@@ -247,8 +245,6 @@ type Category = { id: string; name: string; isActive: boolean };
           )}
         </div>
 
-
-
         <div className={styles.formGroup}>
           <label className={styles.label}>
             Product Image:
@@ -256,8 +252,7 @@ type Category = { id: string; name: string; isActive: boolean };
               type="file"
               accept="image/*"
               multiple
-              // onChange={(e) =>  setProductImage(e.target.files ? e.target.files[0] : null)}
-                onChange = {handleImageChange}
+              onChange={handleImageChange}
               className={styles.input}
             />
           </label>
@@ -292,7 +287,7 @@ type Category = { id: string; name: string; isActive: boolean };
           </div>
         </div>
 
-     <button type="submit" className={styles.button}>
+        <button type="submit" className={styles.button}>
           Add
         </button>
         <button type="button" onClick={BackToHome} className={styles.button}>
@@ -300,9 +295,7 @@ type Category = { id: string; name: string; isActive: boolean };
         </button>
       </form>
 
-
-
-      <h2 className={styles.AddProductstableheading}> Add Product Table</h2>
+      <h2 className={styles.AddProductstableheading}>Add Product Table</h2>
 
       <div className={styles.searchbars}>
         <input
@@ -310,51 +303,43 @@ type Category = { id: string; name: string; isActive: boolean };
           onChange={(e) => setSearchName(e.target.value)}
           className={styles.ProductPageSearchInputfields}
           type="search"
-          placeholder="search by product..."
+          placeholder="Search by product name..."
         />
-          <select 
-          value={searchCategory}
-          onChange={(e) => setSearchCategory(e.target.value)}
-          className={styles.ProductPageSearchInputfields}
-          typeof="search"
-          >
-            <option value="" disabled hidden> Select Category</option>
-            {usersCategories.filter((category)=> category.isActive === true)
-            .map((category,index) => (
-              <option key={index} value={category.name}> {category.name} </option>
-            
-            ))}
-          </select>
-        {/* <input
-          value={searchCategory}
-          onChange={(e) => setSearchCategory(e.target.value)}
-          className={styles.ProductPageSearchInputfields}
-          type="search"
-          placeholder="search by Category..."
-        /> */}
-        
-        <label htmlFor="featuredSelect">Is Featured:
         <select
-          value={searchFeatured}
-          onChange={(e) => setSearchFeatured(e.target.value)}
+          value={searchCategory}
+          onChange={(e) => setSearchCategory(e.target.value)}
+          className={styles.ProductPageSearchInputfields}
         >
-          <option value="">All</option>
-          <option value="true">Yes</option>
-          <option value="false">No</option>
+          <option value="">All Categories</option>
+          {usersCategories
+            .filter((category) => category.isActive === true)
+            .map((category, index) => (
+              <option key={index} value={category.name}>
+                {category.name}
+              </option>
+            ))}
         </select>
+
+        <label htmlFor="featuredSelect">
+          Is Featured:
+          <select
+            value={searchFeatured}
+            onChange={(e) => setSearchFeatured(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
         </label>
 
-        <button 
-        onClick={handleRestfunctionality}
-        className={styles.resetbutton}
+        <button
+          onClick={handleResetFunctionality}
+          className={styles.resetbutton}
         >
-          Reset 
+          Reset
         </button>
       </div>
 
-
-
-      {/* {tableProducts.length > 0 ? ( */}
       {filteredProducts.length > 0 ? (
         <table className={styles.table}>
           <thead>
@@ -364,7 +349,7 @@ type Category = { id: string; name: string; isActive: boolean };
               <th>Product Price</th>
               <th>Product Category</th>
               <th>Product Image</th>
-              <th>is Featured</th>
+              <th>Is Featured</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -373,48 +358,63 @@ type Category = { id: string; name: string; isActive: boolean };
               <tr key={item.id}>
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
-                <td>{item.price}</td>
-
+                <td>${item.price}</td>
                 <td>
                   {Array.isArray(item.category) ? (
-                    <ul style={{padding: 0, margin: 0, listStyle:"desimal"}} >
-                   {usersCategories 
-                            .filter((c) => item.category.includes(c.id))
-                              .map((c) => (
-                        <li key={c.id} style={{ margin:'16px',textIndent:'-4px', padding: " 4px 0"}}>
-                              {c.name}
-                              </li>
-                            ))}
-                        </ul>      
-                  ) : ( 
-                       usersCategories.find((c) => c.id === item.category)?.name || "Unknown"
-                    )}
+                    <ul style={{ padding: 0, margin: 0, listStyle: "decimal" }}>
+                      {item.category.map((catId: string) => {
+                        const category = usersCategories.find(c => c.id === catId);
+                        return category ? (
+                          <li
+                            key={catId}
+                            style={{
+                              margin: "4px",
+                              textIndent: "-4px",
+                              padding: "4px 0"
+                            }}
+                          >
+                            {category.name}
+                          </li>
+                        ) : null;
+                      })}
+                    </ul>
+                  ) : (
+                    usersCategories.find((c) => c.id === item.category)?.name || "Unknown"
+                  )}
                 </td>
-
                 <td>
                   {Array.isArray(item.images) ? (
-                     item.images.map((imgSrc: string, i: number) => (
-                    <img 
-                    key={i}
-                    src={imgSrc} 
-                    alt={`${item.name}-${i}`}
-                    style={{width: '50px', height: '50px' , borderRadius: '8px' , marginRight: '5px' }} 
-                     />
-                  ))
-
-                 ) : item.image ? (
-                    <img 
+                    item.images.map((imgSrc: string, i: number) => (
+                      <img
+                        key={i}
+                        src={imgSrc}
+                        alt={`${item.name}-${i}`}
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "8px",
+                          marginRight: "5px",
+                          objectFit: "cover"
+                        }}
+                      />
+                    ))
+                  ) : item.image ? (
+                    <img
                       src={item.image}
                       alt={item.name}
-                      style={{width: '50px', height: '50px' , borderRadius: '8PX' ,marginRight: '5px' }}
-                      />
-                  ) : null}
-                 
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "8px",
+                        marginRight: "5px",
+                        objectFit: "cover"
+                      }}
+                    />
+                  ) : (
+                    <span>No image</span>
+                  )}
                 </td>
-
-
-                <td>{item.isFeatured ? "yes" : "No"}</td>
-
+                <td>{item.isFeatured ? "Yes" : "No"}</td>
                 <td>
                   <button
                     className={styles.Allbuttonsgeneralstyling}
@@ -436,22 +436,21 @@ type Category = { id: string; name: string; isActive: boolean };
         </table>
       ) : (
         <h2 style={{ padding: "1rem", textAlign: "center" }}>
-          No Product is Added yet...
+          No Products Found...
         </h2>
       )}
 
-      {/* == here is modal == */}
+      {/* Edit Modal */}
       {isEditing && editingProduct && (
         <div className={styles.modalBackdrop}>
           <div className={styles.modalContent}>
-            <h3> Edit Product</h3>
+            <h3>Edit Product</h3>
 
             <label className={styles.label}>
-              {" "}
               Product Name:
               <input
                 type="text"
-                value={editingProduct.name}
+                value={editingProduct.name || ""}
                 onChange={(e) =>
                   setEditingProduct({ ...editingProduct, name: e.target.value })
                 }
@@ -463,7 +462,7 @@ type Category = { id: string; name: string; isActive: boolean };
               Product Price:
               <input
                 type="number"
-                value={editingProduct.price}
+                value={editingProduct.price || ""}
                 onChange={(e) =>
                   setEditingProduct({
                     ...editingProduct,
@@ -475,68 +474,122 @@ type Category = { id: string; name: string; isActive: boolean };
             </label>
 
             <label className={styles.label}>
-              {" "}
               Product Category:
               <select
-                value={editingProduct.category.name}
-                onChange={(e) =>
+                multiple
+                value={editingProduct.category || []}
+                onChange={(e) => {
+                  const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
                   setEditingProduct({
                     ...editingProduct,
-                    category: e.target.value,
-                  })
-                }
+                    category: selectedValues,
+                  });
+                }}
                 className={styles.modalinput}
               >
-                {usersCategories.map((category, index) => (
-                  <option key={index} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
+                {usersCategories
+                  .filter(category => category.isActive)
+                  .map((category, index) => (
+                    <option key={index} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
               </select>
             </label>
 
             <div className={styles.modalformGroup}>
-              <label className={styles.label}>Product Image:</label>
-
-              <img
-                src={editingProduct.image}
-                alt={editingProduct.name}
-                style={{
-                  width: "80px",
-                  height: "80px",
-                  borderRadius: "8px",
-                  marginBottom: "0.5rem",
-                }}
-              />
+              <label className={styles.label}>Product Images:</label>
+              
+              {editingProduct.images && Array.isArray(editingProduct.images) && (
+                <div style={{ marginBottom: "1rem" }}>
+                  {editingProduct.images.map((imgSrc: string, i: number) => (
+                    <img
+                      key={i}
+                      src={imgSrc}
+                      alt={`${editingProduct.name}-${i}`}
+                      style={{
+                        width: "60px",
+                        height: "60px",
+                        borderRadius: "8px",
+                        marginRight: "5px",
+                        objectFit: "cover"
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
 
               <input
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
+                  const files = e.target.files;
+                  if (files && files.length > 0) {
+                    const fileArray = Array.from(files);
+                    const imagePromises = fileArray.map((file) => {
+                      return new Promise<string>((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => resolve(reader.result as string);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                      });
+                    });
+
+                    Promise.all(imagePromises).then((base64Images) => {
                       setEditingProduct({
                         ...editingProduct,
-                        image: reader.result as string,
+                        images: base64Images,
                       });
-                    };
-                    reader.readAsDataURL(file);
+                    });
                   }
                 }}
                 className={styles.modalinput}
               />
             </div>
 
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Is Featured:</label>
+              <div className={styles.radioGroup}>
+                <label>
+                  <input
+                    type="radio"
+                    name="editFeatured"
+                    value="true"
+                    checked={editingProduct.isFeatured === true}
+                    onChange={(e) =>
+                      setEditingProduct({
+                        ...editingProduct,
+                        isFeatured: e.target.value === "true",
+                      })
+                    }
+                  />
+                  Yes
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="editFeatured"
+                    value="false"
+                    checked={editingProduct.isFeatured === false}
+                    onChange={(e) =>
+                      setEditingProduct({
+                        ...editingProduct,
+                        isFeatured: e.target.value === "true",
+                      })
+                    }
+                  />
+                  No
+                </label>
+              </div>
+            </div>
+
             <div className={styles.modalButton}>
               <button
                 onClick={saveEditProduct}
                 className={styles.modalsavebutton}
-                // disabled={!formIsValid}
               >
-                {" "}
-                Save{" "}
+                Save
               </button>
               <button onClick={cancelEdit} className={styles.modalcancelbutton}>
                 Cancel
@@ -545,10 +598,10 @@ type Category = { id: string; name: string; isActive: boolean };
           </div>
         </div>
       )}
+      
       <ToastContainer />
     </>
   );
-}
-
+};
 
 export default AddProducts;
