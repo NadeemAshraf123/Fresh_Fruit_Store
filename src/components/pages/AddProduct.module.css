@@ -66,6 +66,28 @@
 }
 
 
+.ratingContainer {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.star {
+  font-size: 24px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.star:hover {
+  color: gold;
+}
+
+
 
 
 /*================= Product Table Display ============ */

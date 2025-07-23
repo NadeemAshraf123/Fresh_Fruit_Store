@@ -9,89 +9,39 @@ import {
 
 const FeaturesCards: React.FC = () => {
 
+//   var arr = [3, 2, 1, 7, 6, 5, 4, 9, 8, 10];
+// console.log("firsts un-sorted array", arr);
 
+//   for(let  i = 0; i < arr.length; i++) {
+//     for(let j = 0; j < arr.length; j++) {
+//       if (arr[j] > arr[j + 1]){
 
-
-  // var array = [3, 2, 1, 7, 6, 5, 4, 9, 8, 10];
-
-  // let smallest = array[0];
-  // let sortedArray = [];
-
-  // for (let i = 0; i < array.length; i++) {
-  //   if (array[i] < smallest) {
-  //     smallest = array[i];
-  //   }
-  // sortedArray.push(smallest);
-
-  // }
-
-  // // console.log("smallest------------smallest", sortedArray);
-
-
-
-
-  var arr = [3, 2, 1, 7, 6, 5, 4, 9, 8, 10];
-console.log("firsts un-sorted array", arr);
-
-  for(let  i = 0; i < arr.length; i++) {
-    for(let j = 0; j < arr.length; j++) {
-      if (arr[j] > arr[j + 1]){
-
-        let temp = arr[j];
-        arr[j] =arr[j + 1];
-        arr[ j + 1] = temp;
-      }
-    }
-  };
-  console.log("first---Sorting Array",  arr);
-
-
-
-
-
-
-function Table(tableLimit , tableDigit ) {
-
-for (let i = 1; i <= tableLimit; i++) {
-
- let result =  i * tableDigit ;
-
-      console.log("table of users gige" , `${tableDigit} x ${i} = ${result}`);
-}
-}
-Table(10, 5);
-
-
-//  useEffect(() => {
-//   console.log("coming check check")
-
-//  }, []);
-
-
-
-
-// let Arr = [] ; 
-// let Index = 0 ;
-
-// for ( let i = 0 ; i < duplicate.length; i++) {
-//   let element_existed = false ; 
-
-//   for (let j = 0; j < Arr.length ; j++) {
-
-//     if ( Arr[j] === duplicate[i]) {
-//       element_existed = true;
-//       break;
+//         let temp = arr[j];
+//         arr[j] =arr[j + 1];
+//         arr[ j + 1] = temp;
+//       }
 //     }
-//   }
-  
+//   };
+//   console.log("first---Sorting Array",  arr);
 
-//   if (!element_existed) {
-//     Arr[Index] = duplicate[i];
-//     Index++;
-//   }
 
-// };
-// console.log("Remove Duplicate's:", Arr);
+// function Table(tableLimit , tableDigit ) {
+
+// for (let i = 1; i <= tableLimit; i++) {
+
+//  let result =  i * tableDigit ;
+
+//       console.log("table of users gige" , `${tableDigit} x ${i} = ${result}`);
+// }
+// }
+// Table(10, 5);
+
+
+
+
+
+
+
 
  const duplicate = [3,2,1,2,7,6,6,6,5,4,9,8,10];
 
@@ -130,60 +80,6 @@ if ( j === Arr.length) {
 
 
   }
-
-  // for(let i = 0; i < array.length ; i++) {
-  //         if ()
-  //         console.log("sorted-----sorted" , sorted)
-  // }
-  //         // var A = [];
-  //         console.log("reult----array" , sorted);
-
-  // Remove duplicates from this Array.
-
-  // var duplicate = [3, 2, 2,1, 7, 6, 6, 6, 5, 4,4, 9, 8, 10] ;
-
-  // let result = [] ;
-
-  // for(let i = 0; i < duplicate.length ; i++) {
-
-  //   if ( !result.includes(duplicate[i])) {
-
-  //     result.push(duplicate[i]);
-  //   }
-  //   console.log(result);
-
-  // };
-
-
-
-
-  //  const ar = [1,1,1,2,3,4,5,6,6,7,7,8,8];
-//  const unique = [];
-//  let increaseIndex = 0;
-
-
-// for (let i = 0; i < ar.length; i++) {
-
-//  let existed = false ;
-
-//   for(let j = 0 ; j < unique.length ; j++) {
-
-//      if (unique[j] === ar[i]){
-//       existed = true;
-//           console.log("already existed ----do nothing ");
-//           break;
-
-//   }
-//   }
-//   if (!existed){
-//      unique[ increaseIndex] = ar[i];
-//     increaseIndex++;
-//   }
-// }
-//  console.log("unique ==== array ",   unique  )
-
-
-  
 
   return (
     <>

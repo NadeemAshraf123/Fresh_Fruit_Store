@@ -6,6 +6,7 @@ import ProductCategoryPage from './components/pages/ProductCategoryPage';
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FreshStoreFooter from './components/freshstorefooter/FreshStoreFooter';
+import LoginPage from './components/authentication/LoginPage';
 
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
       <Routes>
             
         <Route path='/' element={ <>  <ProductPage />  <FreshStoreFooter /> </>}    />
+        <Route path='/loginpage' element={<> <Nav /> <LoginPage /> </>} />
         <Route path='/add-product' element={ <> <Nav /> <AddProducts />  </>} />
         <Route path='/visit-categorypage' element={<> <Nav /> <ProductCategoryPage /> </>} />
       </Routes>

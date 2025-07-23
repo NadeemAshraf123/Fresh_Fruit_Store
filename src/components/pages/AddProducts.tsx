@@ -22,6 +22,8 @@ const AddProducts = () => {
   const [searchName, setSearchName] = React.useState<string>("");
   const [searchCategory, setSearchCategory] = React.useState<string>("");
   const [searchFeatured, setSearchFeatured] = React.useState<string>("");
+  const [productRating, setProductRating] = React.useState<number>(0);
+
 
   const navigate = useNavigate();
 
@@ -54,6 +56,7 @@ const AddProducts = () => {
           price: productPrice,
           images: base64Images,
           category: productCategory, // Array of category IDs
+          rating: productRating,
           isFeatured: isFeatured === "true"
         };
         
@@ -68,6 +71,7 @@ const AddProducts = () => {
         setProductPrice("");
         setProductImages([]);
         setProductCategory([]);
+        setProductRating(0);
         setIsFeatured("false");
         setErrors({});
       });
@@ -261,6 +265,21 @@ const AddProducts = () => {
           )}
         </div>
 
+        <div className={styles.formGroup} >
+          <label className={styles.label}>
+            Product Rating:
+            <div className={styles.ratingContainer} >
+              {[1, 2, 3, 4 ,5].map((star) => (
+                <span key={star} className={`${styles.star} ${star <= productRating ? styles.filled : '' } `}
+                  onClick={() => setProductRating(star)}>
+                    *
+                 </span>
+
+              ))}
+            </div>
+          </label>
+        </div>
+
         <div className={styles.formGroup}>
           <label className={styles.label}>Is Featured:</label>
           <div className={styles.radioGroup}>
@@ -349,6 +368,7 @@ const AddProducts = () => {
               <th>Product Price</th>
               <th>Product Category</th>
               <th>Product Image</th>
+              <th>Rating</th>
               <th>Is Featured</th>
               <th>Actions</th>
             </tr>
@@ -414,6 +434,17 @@ const AddProducts = () => {
                     <span>No image</span>
                   )}
                 </td>
+
+              <td>
+                {Array.from({ length: item.rating || 0}).map((_ , i) => (
+                  <span key={i} style={{ color: 'gold' }}> * </span>
+                ))}
+                {item.rating === 0 && <span>NO rating</span>}
+              </td>
+
+
+
+
                 <td>{item.isFeatured ? "Yes" : "No"}</td>
                 <td>
                   <button
@@ -439,6 +470,8 @@ const AddProducts = () => {
           No Products Found...
         </h2>
       )}
+
+
 
       {/* Edit Modal */}
       {isEditing && editingProduct && (
@@ -547,6 +580,24 @@ const AddProducts = () => {
                 className={styles.modalinput}
               />
             </div>
+
+            <label className={styles.label}>
+              Product Rating:
+              <div className={styles.ratingContainer}>
+                {[1,2,3,4,5].map((star) => (
+                  <span 
+                  key={star}
+                  className={`${styles.star} ${star <= editingProduct.rating ? styles.filled : ''}`}
+                  onClick={() => setEditingProduct({
+                    ...editingProduct,
+                    rating: star
+                  })}
+                  >
+                  *
+                  </span>
+                ))}
+              </div>
+            </label>
 
             <div className={styles.formGroup}>
               <label className={styles.label}>Is Featured:</label>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+// import LoginPage from '../authentication/LoginPage';
 
 const ProductsDisplay = () => {
   const categories = ["All", "fruits", "vegetable", "fastfood", "meat"];
@@ -64,9 +65,16 @@ const ProductsDisplay = () => {
           {currentProducts.map((product, index) => (
             <div 
               key={index} 
-              style={{border: '1px solid #ddd',borderRadius: '8px',padding: '15px',display: 'flex',flexDirection: 'column',alignItems: 'center'
+              style={{border: '1px solid #ddd',borderRadius: '8px',padding: '15px',display: 'flex',flexDirection: 'column',alignItems: 'center' ,position: 'relative'
               }}
             >
+              {/* {product.isFeatured && (
+                <div style={{position: 'absolute', top: '101px', right: '10px', backgroundColor: '#ff6b6b', color: 'white', padding: '3px 8px', borderRadius: '12px' , fontSize:'12px', fontWeight:'bold'}}>
+                  Featured
+                </div>
+              )} */}
+
+
               <img 
                 src={product.images?.[0]} 
                 alt={product.name} 
@@ -75,6 +83,27 @@ const ProductsDisplay = () => {
               />
 
               <h3 style={{ margin: '5px 0', textAlign: 'center' }}>{product.name}</h3>
+
+              <div style={{display:'flex', alignItems:'center', margin:'5px,0', height:'20px'}}>
+          
+                {[1, 2, 3, 4, 5].map((star) => (
+        <span 
+          key={star}
+          style={{
+            color: star <= (product.rating || 0) ? '#FFD700' : '#ddd',
+            fontSize: '18px',
+            margin: '0 1px'
+          }}
+        >
+          ★
+        </span>
+
+                ))} 
+                {/* {product.rating > 0 && ( */}
+                   <span style={{marginLeft:'5px', fontSize:'14px', color:'#666'}}> ({product.rating}/5)</span>
+                {/* )} */}
+              </div>
+
               <p style={{ color: '#666', fontSize: '0.9rem', textAlign: 'center' }}>
                 Category: {(product.category || "").toString().split(" | ")[1]?.trim() || "un-categorized"}
               </p>

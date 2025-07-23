@@ -48,9 +48,10 @@ margin-right: 10px;
   text-decoration: none;
   color: #000;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: initial;
   font-size: 14px;
   transition: color 0.3s ease;
+  margin-left: 8px;
 }
 
 .navlinks li a:hover {
@@ -153,13 +154,16 @@ margin-right: 10px;
   border: none;
   color: #000;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: initial;
   font-size: 14px;
   display: flex;
   align-items: center;
   cursor: pointer;
-  gap: 6px;
   padding: 0;
+}
+.sortdropdownicon {
+  font-size: small;
+
 }
 
 .dropdownMenu {
@@ -214,11 +218,14 @@ margin-right: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 13px;
+  border-color: #388e3c;
+  box-shadow: 0 0 4px rgba(102, 175, 233, 0.6);
+
 }
 .searchbar input:focus{
   outline: none;
   border-color: #66afe9;
-  border-color: #4CAF50;
+  /* border-color: #4CAF50; */
   box-shadow: 0 0 4px rgba(102, 175, 233, 0.6);
 
 }
