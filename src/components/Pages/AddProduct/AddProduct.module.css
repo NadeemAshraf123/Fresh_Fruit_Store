@@ -180,16 +180,18 @@
 /* modal */ 
 
 .modalBackdrop {
-  position: fixed;
+ position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent overlay */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
+  overflow: auto;
+  padding: 20px;
 }
 
 .modalContent {
@@ -198,7 +200,11 @@
   border-radius: 12px;
   width: 100%;
   max-width: 480px;
+  max-height: 90vh;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .modalContent h3 {
@@ -226,6 +232,11 @@
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
+  margin-top: auto;
+  padding-top: 1rem; 
+  position: sticky;
+  bottom: 0;
+  background: white;
 }
 
 .modalsavebutton,

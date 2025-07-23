@@ -29,9 +29,13 @@ const AddProducts = () => {
 
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem("products") || "[]");
-    setTableProducts(storedProducts);
 
     const Categories = JSON.parse(localStorage.getItem("categoryname") || "[]");
+    
+    console.log("Loaded products:" , storedProducts);
+    console.log("Loaded categories:" , Categories);
+
+    setTableProducts(storedProducts);
     setUsersCategories(Categories);
   }, []);
 
@@ -318,6 +322,9 @@ const AddProducts = () => {
         </button>
       </form>
 
+            {/* TABLE */}
+
+
       <h2 className={styles.AddProductstableheading}>Add Product Table</h2>
 
       <div className={styles.searchbars}>
@@ -383,7 +390,8 @@ const AddProducts = () => {
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>${item.price}</td>
-                <td>
+
+                {/* <td>
                   {Array.isArray(item.category) ? (
                     <ul style={{ padding: 0, margin: 0, listStyle: "decimal" }}>
                       {item.category.map((catId: string) => {
@@ -405,7 +413,30 @@ const AddProducts = () => {
                   ) : (
                     usersCategories.find((c) => c.id === item.category)?.name || "Unknown"
                   )}
-                </td>
+                </td> */}
+                <td>
+  {(() => {
+    if (!item.category || item.category.length === 0) return "-";
+    
+    const categoriesToShow = Array.isArray(item.category) 
+      ? item.category
+      : [item.category];
+    
+    return (
+      <ul style={{ padding: 0, margin: 0, listStyle: "none" }}>
+        {categoriesToShow.map((catId: string) => {
+          const category = usersCategories.find(c => c.id === catId);
+          return category ? (
+            <li key={catId} style={{ margin: "4px", padding: "4px 0" }}>
+              {category.name} {/* Only show name */}
+            </li>
+          ) : null; // Return null for unknown categories (won't display)
+        }).filter(Boolean)} {/* Remove null entries */}
+      </ul>
+    );
+  })()}
+</td>
+
                 <td>
                   {Array.isArray(item.images) ? (
                     item.images.map((imgSrc: string, i: number) => (
