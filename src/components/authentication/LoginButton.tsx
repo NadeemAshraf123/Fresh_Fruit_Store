@@ -1,25 +1,29 @@
-import React , { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import styles from './Authentication.module.css'
+import React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
-
-const LoginButton = () => {
-    const navigate = useNavigate();
-
-    const handleLoginClick = () => {
-        navigate('/LoginPage');
-    };
-
-  return (
-
-    <button 
-    onClick={handleLoginClick}
-    className={styles.L_button}
-    >
-        Login
-    </button>
-    
-  )
+interface Props {
+  loggedUser: any;
 }
 
-export default LoginButton
+const LoginButton: React.FC<Props> = ({ loggedUser }) => {
+  const navigate = useNavigate();
+
+  return loggedUser ? (
+    <button
+    style={{backgroundColor:'transparent',border:'none',fontSize:'14px',fontWeight:'bold',marginBottom:'9px'}}
+      onClick={() => {
+        localStorage.removeItem('loggedInUser');
+        navigate('/loginpage');                      
+      }}
+    >
+      Logout
+    </button>
+  ) : (
+    
+    <Link to="/loginpage">
+      <button>Login</button>
+    </Link>
+  );
+};
+
+export default LoginButton;

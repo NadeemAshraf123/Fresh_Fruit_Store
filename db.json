@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": "ea44",
+      "name": "Ali",
+      "email": "amirshakeeliub@gmail.com",
+      "password": "Amir123@",
+      "confirmPassword": "Amir123@"
+    },
+    
+    {
+      "id": "6d52",
+      "name": "Amna",
+      "email": "amna123@gmail.com",
+      "password": "Amna123@",
+      "confirmPassword": "Amna123@"
+    },
+    {
+      "id": "5f40",
+      "name": "Zain",
+      "email": "Zain123@gmail.com",
+      "password": "Zain123@",
+      "confirmPassword": "Zain123@"
+    }
+  ]
+}

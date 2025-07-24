@@ -1,11 +1,13 @@
-.login-container {
+/* Main container - exactly like login page */
+.signupContainer {
   position: relative;
   min-height: 100vh;
   width: 100%;
   overflow: hidden;
 }
 
-.background-blur {
+/* Background blur layer - exactly like login page */
+.backgroundBlur {
   position: absolute;
   top: 0;
   left: 0;
@@ -15,7 +17,8 @@
   z-index: 1;
 }
 
-.content-overlay {
+/* Content overlay - exactly like login page */
+.contentOverlay {
   position: relative;
   z-index: 2;
   display: flex;
@@ -25,18 +28,19 @@
   padding: 20px;
 }
 
-.login-card {
+/* Updated container with glassmorphism effect like login */
+.container {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   padding: 40px;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.login-title {
+.titleheading {
   text-align: center;
   margin-bottom: 30px;
   font-size: 24px;
@@ -44,26 +48,13 @@
   color: #333;
 }
 
-.login-form {
+.form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 4px;
-}
-
-.form-input {
+.input {
   padding: 12px 16px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -73,18 +64,22 @@
   background: rgba(255, 255, 255, 0.9);
 }
 
-.form-input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+.input:hover {
+  border-color: #4cAf50;
+}
+
+.input:focus {
+  border-color: #4cAf50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
   background: white;
 }
 
-.form-input::placeholder {
+.input::placeholder {
   color: #aaa;
 }
 
-.login-button {
-  background-color: #007bff;
+.outlineWarning {
+  background-color: #4cAf50;
   color: white;
   border: none;
   padding: 14px 20px;
@@ -96,66 +91,56 @@
   margin-top: 10px;
 }
 
-.login-button:hover {
-  background-color: #0056b3;
+.outlineWarning:hover {
+  background-color: #45a049;
 }
 
-.login-button:active {
+.outlineWarning:active {
   transform: translateY(1px);
 }
 
-.login-footer {
+.error {
+  color: #dc3545;
+  font-size: 13px;
+  margin: 0;
+  margin-top: -10px;
+  margin-bottom: 5px;
+}
+
+.signupFooter {
   margin-top: 24px;
   text-align: center;
 }
 
-.signup-text {
+.signupText {
   color: #666;
   font-size: 14px;
   margin: 0;
 }
 
-.signup-link {
-  color: #007bff;
+.signupText p {
+  margin: 0;
+}
+
+.TologinPageLink {
+  color: #4cAf50;
   text-decoration: none;
   font-weight: 500;
 }
 
-.signup-link:hover {
+.TologinPageLink:hover {
   text-decoration: underline;
 }
 
-
-.message {
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.message.error {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-.message.success {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-
-
-
-
 /* Responsive design */
 @media (max-width: 480px) {
-  .login-card {
+  .container {
     padding: 30px 20px;
     margin: 10px;
+    max-width: 90%;
   }
   
-  .login-title {
+  .titleheading {
     font-size: 20px;
   }
 }

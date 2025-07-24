@@ -11,19 +11,11 @@ import {
 import LoginPage from "../authentication/LoginPage";
 import LoginButton from "../authentication/LoginButton";
 
-
 type Product = {
   name: string;
   price: string;
+  images?: string[];
 };
-
-const dummyProducts: Product[] = [
-  { name: "Lemon", price: "2.50" },
-  { name: "Lemon", price: "2.50" },
-  { name: "Apple", price: "3.00" },
-  { name: "Strawberry", price: "4.00" },
-  { name: "Pineapple", price: "5.00" },
-];
 
 const Nav = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -31,12 +23,20 @@ const Nav = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isPagesDrop, setIsPagesDrop] = useState(false);
-
   const dropdownRef = useRef<HTMLUListElement>(null);
   const pagesDropRef = useRef<HTMLUListElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
-  const [productImages, setProductImages] = useState<string[]>([]);
+  const [loggedUser, setLoggedUser] = useState<any>(null);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("loggedInUser");
+    console.log("localstorage m kya h ", storedUser);
+    if (storedUser) {
+      setLoggedUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  console.log("storedusers", loggedUser);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -76,19 +76,25 @@ const Nav = () => {
   };
 
   const handleSearch = () => {
-  const data = localStorage.getItem("products") || "[]";
-  const JSONProducts = JSON.parse(data); 
 
-  const query = searchValues.trim().toLowerCase();
+    const searchedvalues = searchValues.trim();
+          if (!searchedvalues) {
+            alert("Please enter a product name or price to search");
+            return;
+          }
 
-  const foundItem = JSONProducts.find((item: any) =>
-    item.name.toLowerCase().includes(query) || item.price.toLowerCase().includes(query)
-  );
+    const data = localStorage.getItem("products") || "[]";
+    const JSONProducts = JSON.parse(data);
 
-  setSelectedProduct(foundItem || null);
-  setIsModalOpen(true);
-};
 
+    const foundItem = JSONProducts.find((item: any) =>
+      item.name.toLowerCase().includes(searchedvalues.toLowerCase()) ||
+       item.price === searchedvalues
+    );
+
+    setSelectedProduct(foundItem || null);
+    setIsModalOpen(true);
+  };
 
   const HandlePagesDropdown = () => {
     setIsPagesDrop((prev) => !prev);
@@ -110,100 +116,123 @@ const Nav = () => {
   return (
     <>
       <nav className={styles.mainnavbaar}>
-        <div className={styles.logo}>
-          <FontAwesomeIcon icon={faUser} className={styles.UserIcon} />
+    
+        <div className={styles.leftSection}>
           <Link to="/" className={styles.logoText}>
             Fresh Store
           </Link>
         </div>
 
-        <ul className={styles.navlinks}>
-          <li className={styles.HomeNavTag}>
-            {" "}
-            <Link to="/"> Home </Link>{" "}
-          </li>
-          <li>
-            {" "}
-            <Link to="">  Shop  </Link>{" "}
-          </li>
+    
 
-          <li className={styles.pagesdrop}>
-            {" "}
-            <button
-              className={styles.pagesbutton}
-              onClick={HandlePagesDropdown}
-            >
-              <Link to=""> Pages </Link>
-            </button>{" "}
-            {isPagesDrop && (
-              <ul className={styles.pagesdropmenu} ref={pagesDropRef}>
-                <li>
-                  {" "}
-                  <button
-                    onClick={handleAddProductClick}
-                    className={styles.pagesdropbutton}
-                  >
-                    {" "}
-                    Add Product{" "}
-                  </button>{" "}
-                </li>
+        <div className={styles.centerSection}>
+          <ul className={styles.navlinks}>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
 
-                <li>
-                  <button
-                    className={styles.pagesdropbutton}
-                    onClick={handleProductCategoryPage}
-                  >
-                    Add Category
-                  </button>
-                </li>
-              </ul>
-            )}
-          </li>
-          <li>
-            {" "}
-            <Link to="/"> About </Link>{" "}
-          </li>
-
-          <li className={styles.dropdown}>
-
-            <button className={styles.dropdownToggle} onClick={toggleDropdown}>
-              <span className={styles.Sortingbutton}>Sorting</span>
-            </button>
-
-            {isDropdownOpen && (
-              <ul className={styles.dropdownMenu} ref={dropdownRef}>
-                <li>
-                  {" "}
-                  <button className={styles.dropdownmenubutton}>
-                    Alpha Sort
-                  </button>
-                </li>
-                <li>
-                  <button className={styles.dropdownmenubutton}>
-                    Numeric Sort
-                  </button>
-                </li>
-              </ul>
-            )}
-          </li>
 
             
-          <LoginButton />
+            <li>
+              <Link to="">Shop</Link>
+            </li>
 
-          <li className={styles.searchbar}>
+            {loggedUser && (
+              <li className={styles.pagesdrop}>
+                <button
+                  className={styles.pagesbutton}
+                  onClick={HandlePagesDropdown}
+                >
+                  Manage
+                </button>
+                {isPagesDrop && (
+                  <ul className={styles.pagesdropmenu} ref={pagesDropRef}>
+                    <li>
+                      <button
+                        onClick={handleAddProductClick}
+                        className={styles.pagesdropbutton}
+                      >
+                        Add Product
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        className={styles.pagesdropbutton}
+                        onClick={handleProductCategoryPage}
+                      >
+                        Add Category
+                      </button>
+                    </li>
+                  </ul>
+                )}
+              </li>
+            )}
+
+            <li>
+              <Link to="/">About</Link>
+            </li>
+
+            <li className={styles.dropdown}>
+              <button className={styles.dropdownToggle} onClick={toggleDropdown}>
+                <span className={styles.Sortingbutton}>Sorting</span>
+              </button>
+
+              {isDropdownOpen && (
+                <ul className={styles.dropdownMenu} ref={dropdownRef}>
+                  <li>
+                    <button className={styles.dropdownmenubutton}>
+                      Alpha Sort
+                    </button>
+                  </li>
+                  <li>
+                    <button className={styles.dropdownmenubutton}>
+                      Numeric Sort
+                    </button>
+                  </li>
+                </ul>
+              )}
+            </li>
+          </ul>
+        </div>
+
+
+
+  
+        <div className={styles.rightSection}>
+          <LoginButton loggedUser={loggedUser} />
+
+          {loggedUser && (
+            <div className={styles.userInfo}>
+              <FontAwesomeIcon icon={faUser} className={styles.UserIcon} />
+              <span className={styles.loggedInUserName}>
+                {loggedUser.name}
+              </span>
+            </div>
+          )}
+
+          <div className={styles.searchbar}>
             <input
               type="text"
-              placeholder="Sarch by name or price..."
+              placeholder="Search by name or price..."
               value={searchValues}
               onChange={(e) => setSearchValues(e.target.value)}
               className={styles.searchbarinput}
+              onKeyPress={(e) => {
+                  if (e.key === 'Enter' && searchValues.trim()) {
+                    handleSearch();
+                  }
+              }}
             />
+            <button 
+                onClick={handleSearch}
+                disabled={!searchValues.trim()}
+                className={!searchValues.trim() ? styles.disabledButton : ''}
+                >
 
-            <button onClick={handleSearch}>
               <FontAwesomeIcon icon={faSearch} />
             </button>
-          </li>
-        </ul>
+          </div>
+        </div>
       </nav>
 
       {isModalOpen && (
@@ -246,25 +275,24 @@ const Nav = () => {
               ✕
             </button>
 
-           {selectedProduct ? (
-  <>
-    <img
-      src={selectedProduct.images?.[0] || Pack} // Use first image from product
-      alt={selectedProduct.name}
-      style={{
-        width: "100px",
-        height: "100px",
-        objectFit: "cover",
-        marginBottom: "10px",
-      }}
-    />
-    <h2>{selectedProduct.name}</h2>
-    <p>Price: ${selectedProduct.price}</p>
-  </>
-) : (
-  <p>No matching product found...</p>
-)}
-
+            {selectedProduct ? (
+              <>
+                <img
+                  src={selectedProduct.images?.[0] || "/default-product.jpg"}
+                  alt={selectedProduct.name}
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                    marginBottom: "10px",
+                  }}
+                />
+                <h2>{selectedProduct.name}</h2>
+                <p>Price: ${selectedProduct.price}</p>
+              </>
+            ) : (
+              <p>No matching product found...</p>
+            )}
           </div>
         </div>
       )}
