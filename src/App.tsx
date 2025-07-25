@@ -1,13 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AddProducts from "./components/pages/AddProducts";
-import ProductPage from "./components/productpage/ProductPage";
-import Nav from './components/productpage/Nav';
-import ProductCategoryPage from './components/pages/ProductCategoryPage';
+import AddProducts from "./components/Pages/AddProduct/AddProducts";
+import ProductPage from "./components/productpage/WrappeUp";
+// import ProductCategoryPage from './components/pages/ProductCategoryPage';
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FreshStoreFooter from './components/freshstorefooter/FreshStoreFooter';
-import LoginPage from './components/authentication/LoginPage';
-import SignupPage from './components/authentication/SignUpPage';
+import LoginPage from './components/Pages/Authentication/LoginPage/LoginPage';
+import SignUpPage from './components/Pages/Authentication/SignUpPage/SignUpPage';
+import Shop from './components/Pages/Shop/Shop';
+import Navbar from './components/Navbar/Navbar';
+import AddProductCategory from './components/Pages/AddProductCategory/AddProductCategory';
 
 
 export default function App() {
@@ -17,17 +19,12 @@ export default function App() {
       <Routes>
             
         <Route path='/' element={ <>  <ProductPage />  <FreshStoreFooter /> </>}    />
+        <Route path='/shop' element={ <> <Navbar />  <Shop />  <FreshStoreFooter />   </> } />
+        <Route path='/loginpage' element={ <LoginPage />  } />
+         <Route path='/signuppage' element= { <SignUpPage /> }   />
 
-        <Route path='/loginpage' element={<> 
-        {/* <Nav /> */}
-         <LoginPage />
-         </> 
-         } 
-         /> 
-         <Route path='/signuppage' element= { <SignupPage /> }   />
-
-        <Route path='/add-product' element={ <> <Nav /> <AddProducts />  </>} />
-        <Route path='/visit-categorypage' element={<> <Nav /> <ProductCategoryPage /> </>} />
+        <Route path='/add-product' element={ <>  <AddProducts />  </>} />
+        <Route path='/addproductcategory' element={<><AddProductCategory /> </>} />
       </Routes>
 
     </Router>

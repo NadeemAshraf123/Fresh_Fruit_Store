@@ -191,6 +191,8 @@ const AddProducts = () => {
 
   return (
     <>
+              {/* add product  */}
+
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <div className={styles.formGroup}>
           <label className={styles.label}>

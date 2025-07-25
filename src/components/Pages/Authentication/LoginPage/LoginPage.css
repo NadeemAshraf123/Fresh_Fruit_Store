@@ -125,6 +125,17 @@
   text-decoration: underline;
 }
 
+.home-button-navigation {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  /* background-color: red;  */
+}
+.home-button-navigation:hover{
+    text-decoration: underline;
+
+}
+
 
 .message {
   margin: 10px 0;
@@ -143,6 +154,7 @@
   background-color: #d4edda;
   color: #155724;
 }
+
 
 
 

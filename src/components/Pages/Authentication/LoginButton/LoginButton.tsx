@@ -21,7 +21,7 @@ const LoginButton: React.FC<Props> = ({ loggedUser }) => {
   ) : (
     
     <Link to="/loginpage">
-      <button>Login</button>
+      <button style={{background:'transparent', border:'none', fontSize:'14px',fontWeight:'bold'}}>Login</button>
     </Link>
   );
 };

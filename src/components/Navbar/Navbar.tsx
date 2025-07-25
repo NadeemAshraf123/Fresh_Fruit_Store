@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import styles from "./Nav.module.css";
+import styles from "./Navbar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronUp,
@@ -8,8 +8,7 @@ import {
   faUser,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import LoginPage from "../authentication/LoginPage";
-import LoginButton from "../authentication/LoginButton";
+import LoginButton from "../Pages/Authentication/LoginButton/LoginButton";
 
 type Product = {
   name: string;
@@ -17,7 +16,7 @@ type Product = {
   images?: string[];
 };
 
-const Nav = () => {
+const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchValues, setSearchValues] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -105,7 +104,7 @@ const Nav = () => {
     navigate("/add-product");
   };
   const handleProductCategoryPage = () => {
-    navigate("/visit-categorypage");
+    navigate("/addproductcategory");
   };
 
   console.log(
@@ -134,7 +133,7 @@ const Nav = () => {
 
             
             <li>
-              <Link to="">Shop</Link>
+              <Link to="/shop">Shop</Link>
             </li>
 
             {loggedUser && (
@@ -172,7 +171,9 @@ const Nav = () => {
               <Link to="/">About</Link>
             </li>
 
-            <li className={styles.dropdown}>
+
+
+            {/* <li className={styles.dropdown}>
               <button className={styles.dropdownToggle} onClick={toggleDropdown}>
                 <span className={styles.Sortingbutton}>Sorting</span>
               </button>
@@ -191,7 +192,12 @@ const Nav = () => {
                   </li>
                 </ul>
               )}
-            </li>
+            </li> */}
+
+
+
+
+
           </ul>
         </div>
 
@@ -199,7 +205,9 @@ const Nav = () => {
 
   
         <div className={styles.rightSection}>
-          <LoginButton loggedUser={loggedUser} />
+
+          <LoginButton  loggedUser={loggedUser} />
+
 
           {loggedUser && (
             <div className={styles.userInfo}>
@@ -225,7 +233,7 @@ const Nav = () => {
             />
             <button 
                 onClick={handleSearch}
-                disabled={!searchValues.trim()}
+                // disabled={!searchValues.trim()}
                 className={!searchValues.trim() ? styles.disabledButton : ''}
                 >
 
@@ -300,4 +308,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default Navbar;

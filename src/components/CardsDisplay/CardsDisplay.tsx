@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import styles from "./FeaturesCards.module.css";
+import styles from "./CardsDisplay.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTruck,
@@ -7,7 +7,7 @@ import {
   faShieldAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-const FeaturesCards: React.FC = () => {
+const CardsDisplay: React.FC = () => {
 
 //   var arr = [3, 2, 1, 7, 6, 5, 4, 9, 8, 10];
 // console.log("firsts un-sorted array", arr);
@@ -106,4 +106,4 @@ if ( j === Arr.length) {
   );
 };
 
-export default FeaturesCards;
+export default CardsDisplay;

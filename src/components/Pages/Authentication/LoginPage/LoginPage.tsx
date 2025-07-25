@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
-import main from '../../assets/fruits/main.jpg';
+// import main from '../../assets/fruits/main.jpg';
 import './LoginPage.css';
 
 interface LoginProps {}
@@ -60,7 +60,7 @@ const LoginPage: React.FC<LoginProps> = () => {
       <div 
         className="background-blur"
         style={{ 
-          backgroundImage: `url(${main})`, 
+        //   backgroundImage: `url(${main})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
@@ -115,13 +115,13 @@ const LoginPage: React.FC<LoginProps> = () => {
 
           <div className="login-footer">
             <p className="signup-text">
-              Don't have an account? <Link to="/signuppage" className="signup-link">Sign up</Link>
+              Don't have an account? <Link to="/signuppage" className="signup-link"> Sign up </Link>
             </p>
+            <p> <Link to='/' className="home-button-navigation">  Home  </Link> </p>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
 export default LoginPage;

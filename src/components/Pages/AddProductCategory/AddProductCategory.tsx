@@ -1,10 +1,10 @@
 import React from "react";
-import styles from "./ProductCategoryPage.module.css";
+import styles from "./AddProductCategory.module.css";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 
-const VisitCategorizedPage = () => {
+const AddProductCategory = () => {
   const [productCategoryName, setProductCategoryName] = React.useState("");
   const [productImage, setProductImage] = React.useState<File | null>(null);
   const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
@@ -401,4 +401,4 @@ const VisitCategorizedPage = () => {
   );
 };
 
-export default VisitCategorizedPage;
+export default AddProductCategory;

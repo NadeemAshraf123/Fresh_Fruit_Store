@@ -2,10 +2,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
-import main from '../../assets/fruits/main.jpg';
+// import main from '../../assets/fruits/main.jpg';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import styles from './Signup.module.css';
+import styles from './SignUpPage.module.css';
 
 interface FormData {
   name: string;
@@ -24,7 +24,7 @@ const schema = yup.object().shape({
     .required('Confirm your password'),
 });
 
-const SignupPage: React.FC = () => {
+const SignUpPage: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -64,7 +64,7 @@ const SignupPage: React.FC = () => {
       <div 
         className={styles.backgroundBlur}
         style={{ 
-          backgroundImage: `url(${main})`, 
+          // backgroundImage: `url(${main})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
@@ -122,4 +122,4 @@ const SignupPage: React.FC = () => {
   );
 };
 
-export default SignupPage;
+export default SignUpPage;

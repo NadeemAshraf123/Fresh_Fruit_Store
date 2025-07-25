@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-// import LoginPage from '../authentication/LoginPage';
+import { Link } from 'react-router-dom';
 
-const ProductsDisplay = () => {
+
+const Shop = () => {
   const categories = ["All", "fruits", "vegetable", "fastfood", "meat"];
   const [products, setProducts] = useState<Array<any>>([]);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -16,7 +17,7 @@ const ProductsDisplay = () => {
     }
   }, []);
 
-  console.log("products" , products);
+  console.log("product display????" , products);
 
 
   const handleFilter = (category: string) => {
@@ -116,8 +117,17 @@ const ProductsDisplay = () => {
         </div>
       </div>
     </div>
+    {/* <div>
+
+        <p style={{textAlign:'end', marginRight:'80px',marginTop:'40px',}}> 
+            <Link to='/' style={{textDecoration:'none',}}>
+             Home 
+        </Link>
+     </p>
+    </div> */}
+
     </>
   );
 };
 
-export default ProductsDisplay;
+export default Shop;

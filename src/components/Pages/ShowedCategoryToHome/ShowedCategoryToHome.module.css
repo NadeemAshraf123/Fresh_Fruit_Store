@@ -1,0 +1,121 @@
+/* Main container */
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  background-color: transparent;
+  min-height: 100vh;
+}
+
+/* Heading styles */
+.heading {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Grid container for cards - 4 cards per row */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Individual category card */
+.categoryCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+/* Card hover effects */
+.categoryCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  border-color: #007bff;
+}
+
+/* Image container */
+.imageContainer {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: #f8f9fa;
+}
+
+/* Category image */
+.categoryImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* Image zoom effect on hover */
+.categoryCard:hover .categoryImage {
+  transform: scale(1.05);
+}
+
+/* Category name */
+.categoryName {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 0.5rem;
+  word-wrap: break-word;
+}
+
+/* Empty state when no categories */
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.emptyState p {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .cardsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .container {
+    padding: 1rem;
+  }
+  
+  .imageContainer {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .imageContainer {
+    height: 200px;
+  }
+}

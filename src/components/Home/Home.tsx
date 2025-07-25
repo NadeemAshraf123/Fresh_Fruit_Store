@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './MainSection.module.css';
+import styles from './Home.module.css';
 import main from '../../assets/fruits/main.jpg';
 
-const MainSection = () => {
+const Home = () => {
   return (
     <>
     <section className={styles.hero} style={{ backgroundImage: `url(${main})` }}>
@@ -24,6 +24,6 @@ const MainSection = () => {
   );
 };
 
-export default MainSection;
+export default Home;
 
 
