@@ -29,13 +29,13 @@ const Navbar = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("loggedInUser");
-    console.log("localstorage m kya h ", storedUser);
+    // console.log("localstorage m kya h ", storedUser);
     if (storedUser) {
       setLoggedUser(JSON.parse(storedUser));
     }
   }, []);
 
-  console.log("storedusers", loggedUser);
+  // console.log("storedusers", loggedUser);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -107,17 +107,17 @@ const Navbar = () => {
     navigate("/addproductcategory");
   };
 
-  console.log(
-    "Saved Products to localStorage by users at Addproduct page:",
-    JSON.parse(localStorage.getItem("products") || "[]")
-  );
+  // console.log(
+  //   "Saved Products to localStorage by users at Addproduct page:",
+  //   JSON.parse(localStorage.getItem("products") || "[]")
+  // );
 
   return (
     <>
       <nav className={styles.mainnavbaar}>
     
         <div className={styles.leftSection}>
-          <Link to="/" className={styles.logoText}>
+          <Link to="/freshstore" className={`${location.pathname === '/freshstore' ? styles.activeLink : ""}`}>
             Fresh Store
           </Link>
         </div>
@@ -127,19 +127,23 @@ const Navbar = () => {
         <div className={styles.centerSection}>
           <ul className={styles.navlinks}>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/" className={`${location.pathname === '/' ? styles.activeLink : ""}`}>Home</Link>
             </li>
 
 
             
             <li>
-              <Link to="/shop">Shop</Link>
+              <Link to="/shop" className={`${location.pathname === '/shop' ? styles.activeLink : ""}`}>Shop</Link>
             </li>
 
             {loggedUser && (
               <li className={styles.pagesdrop}>
                 <button
-                  className={styles.pagesbutton}
+                  className={`${styles.pagesbutton} ${isPagesDrop || 
+                    location.pathname === "/add-product" || location.pathname === "/addproductcategory" 
+                    ? styles.activeLink
+                    : ""
+                  }`}
                   onClick={HandlePagesDropdown}
                 >
                   Manage
@@ -168,11 +172,8 @@ const Navbar = () => {
             )}
 
             <li>
-              <Link to="/">About</Link>
+              <Link to="/aboutus" className={`${location.pathname === '/aboutus' ? styles.activeLink : ""}`}>About</Link>
             </li>
-
-
-
             {/* <li className={styles.dropdown}>
               <button className={styles.dropdownToggle} onClick={toggleDropdown}>
                 <span className={styles.Sortingbutton}>Sorting</span>
@@ -193,17 +194,8 @@ const Navbar = () => {
                 </ul>
               )}
             </li> */}
-
-
-
-
-
           </ul>
         </div>
-
-
-
-  
         <div className={styles.rightSection}>
 
           <LoginButton  loggedUser={loggedUser} />

@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 
 const Shop = () => {
-  const categories = ["All", "fruits", "vegetable", "fastfood", "meat"];
+ 
+  const location = useLocation();
+  const selectedFromHome = location.state?.selectedCategory?.name?.toLowerCase() || "ALL";
+  const [activeCategory, setActiveCategory] = useState(selectedFromHome);
+   const categories = ["All", "fruits", "vegetable", "fastfood", "meat"];
   const [products, setProducts] = useState<Array<any>>([]);
-  const [activeCategory, setActiveCategory] = useState("All");
+
+
 
   useEffect(() => {
     try {
@@ -17,7 +22,7 @@ const Shop = () => {
     }
   }, []);
 
-  console.log("product display????" , products);
+  // console.log("product display????" , products);
 
 
   const handleFilter = (category: string) => {
@@ -105,8 +110,11 @@ const Shop = () => {
                 {/* )} */}
               </div>
 
-              <p style={{ color: '#666', fontSize: '0.9rem', textAlign: 'center' }}>
+              {/* <p style={{ color: '#666', fontSize: '0.9rem', textAlign: 'center' }}>
                 Category: {(product.category || "").toString().split(" | ")[1]?.trim() || "un-categorized"}
+              </p> */}
+              <p style={{color:'#666', fontSize:'0.9rem', textAlign:'center'}}>
+                Category: {product.category?.name || "un-categorized"}
               </p>
 
               <p style={{ margin: '5px 0', fontWeight: 'bold', color: '#333', textAlign: 'center'}}>

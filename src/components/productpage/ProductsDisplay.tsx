@@ -1,123 +1,99 @@
-import React, { useEffect, useState } from 'react';
-// import LoginPage from '../authentication/LoginPage';
+import React from 'react'
 
 const ProductsDisplay = () => {
-  const categories = ["All", "fruits", "vegetable", "fastfood", "meat"];
-  const [products, setProducts] = useState<Array<any>>([]);
-  const [activeCategory, setActiveCategory] = useState("All");
-
-  useEffect(() => {
-    try {
-      const fetchedProducts = localStorage.getItem('products');
-      const JSONProducts = fetchedProducts ? JSON.parse(fetchedProducts) : [];
-      setProducts(JSONProducts);
-    } catch (error) {
-      console.error("Failed to load products:", error);
-    }
-  }, []);
-
-  console.log("products" , products);
-
-
-  const handleFilter = (category: string) => {
-    setActiveCategory(category);
-  };
-
-  const groupedProducts = categories.reduce((acc, category) => {
-    if (category === "All") {
-      acc[category] = products;
-    } else {
-      acc[category] = products.filter((product) =>
-        (product.category || "").toString().split(" | ")[1]?.trim().toLowerCase() === category.toLowerCase()
-      );
-    }
-    return acc;
-  }, {} as Record<string, any[]>);
-
-  const currentProducts = groupedProducts[activeCategory] || [];
-
   return (
-    <>
+    <div>ProductsDisplayb  222222222222222</div>
+  )
+}
 
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Product's Display</h1>
+export default ProductsDisplay
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from 'react'
+// import styles from  './ProductDisplay.module.css';
+
+
+// interface Product {
+//   name: string;
+//   image: string;
+//   category: {name: string};
+// }
+
+
+
+
+
+// const ProductsDisplay = () => {
+//   // const [userscategory, setUsersCategory] = useState<any[]>([]);
+//   const [uniqueCategories, setUniqueCategories] = useState<string[]>([]);
+//   const [product , setProduct] = useState<Product[]>([]);
+
+
+// useEffect(() => {
+//   const localData = localStorage.getItem("products");
+//   if (localData) {
+//     const parsed: Product[] = JSON.parse(localData);
+//     setProduct(parsed); 
+
+//     const categoriesSet = new Set(parsed.map((item: Product) => item.category?.name));
+//     setUniqueCategories(Array.from(categoriesSet));
+//   }
+// }, []);
+
+
+//   const filteredProducts = (category: string) => {
+//     const allProducts = JSON.parse(localStorage.getItem("products") || "[]");
+//     if (category === 'All') {
+//       setProduct(allProducts);
+//     } else {
+//       const filtered = allProducts.filter((item: Product) => item.category?.name === category);
+//       setProduct(filtered);
+//     }
+//   };
+  
+//   return (
+//     <div className={styles.productscontainer}>
+//       <h2 className={styles.categoryheading}>Shop by Category</h2>
       
-      <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '30px', flexWrap: 'wrap' }}>
-        {categories.map((category, index) => (
-          <button
-            key={index}
-            onClick={() => handleFilter(category)}
-            style={{ padding: '8px 16px', borderRadius: '20px', border: 'none', background: activeCategory === category ? '#ddd' : '#f0f0f0', cursor: 'pointer', fontWeight: 'bold', textTransform: 'capitalize'}}
-          >
-            {category}
-          </button>
-          
-        ))}
-      </div>
-    
-      <div style={{ marginBottom: '40px' }}>
-        <h2 style={{ marginBottom: '15px', textTransform: 'capitalize' }}>
-          {activeCategory} ({currentProducts.length})
-        </h2>
-        
-        <div style={{  display: 'grid',  gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',  gap: '20px', justifyContent: 'center'
-        }}>
-          {currentProducts.map((product, index) => (
-            <div 
-              key={index} 
-              style={{border: '1px solid #ddd',borderRadius: '8px',padding: '15px',display: 'flex',flexDirection: 'column',alignItems: 'center' ,position: 'relative'
-              }}
-            >
-              {/* {product.isFeatured && (
-                <div style={{position: 'absolute', top: '101px', right: '10px', backgroundColor: '#ff6b6b', color: 'white', padding: '3px 8px', borderRadius: '12px' , fontSize:'12px', fontWeight:'bold'}}>
-                  Featured
-                </div>
-              )} */}
+//       <div className={styles.categorieslist}>
+//         <button 
+//           className={styles.categoryutton}
+//           onClick={() => console.log("selected category. All")}
+//         >
+//             All
+//         </button>
+//         {uniqueCategories.map((category, index) => (
+//           <button
+//             key={index}
+//             className={styles.categorybutton}
+//             onClick={() => filteredProducts(category)}
+//           >
+//             {category.toLowerCase()}
+//           </button>
+//         ))}
+//       </div>
 
 
-              <img 
-                src={product.images?.[0]} 
-                alt={product.name} 
-                style={{  width: '100%',  height: '180px',  objectFit: 'cover', borderRadius: '4px', marginBottom: '10px' 
-                }} 
-              />
+//       <div className={styles.productsgrid}>
+//         {product.map((prod, idx) => (
+//           <div key={idx} className={styles.productitem}>
+//             <img src={prod.image} alt={prod.name} />
+//             <h3>{prod.name}</h3>
+//             <p>{prod.category?.name}</p>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
 
-              <h3 style={{ margin: '5px 0', textAlign: 'center' }}>{product.name}</h3>
-
-              <div style={{display:'flex', alignItems:'center', margin:'5px,0', height:'20px'}}>
-          
-                {[1, 2, 3, 4, 5].map((star) => (
-        <span 
-          key={star}
-          style={{
-            color: star <= (product.rating || 0) ? '#FFD700' : '#ddd',
-            fontSize: '18px',
-            margin: '0 1px'
-          }}
-        >
-          ★
-        </span>
-
-                ))} 
-                {/* {product.rating > 0 && ( */}
-                   <span style={{marginLeft:'5px', fontSize:'14px', color:'#666'}}> ({product.rating}/5)</span>
-                {/* )} */}
-              </div>
-
-              <p style={{ color: '#666', fontSize: '0.9rem', textAlign: 'center' }}>
-                Category: {(product.category || "").toString().split(" | ")[1]?.trim() || "un-categorized"}
-              </p>
-
-              <p style={{ margin: '5px 0', fontWeight: 'bold', color: '#333', textAlign: 'center'}}>
-                Price: ${product.price}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-    </>
-  );
-};
-
-export default ProductsDisplay;
+// export default ProductsDisplay;

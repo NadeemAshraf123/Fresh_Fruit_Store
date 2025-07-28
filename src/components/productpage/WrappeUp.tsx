@@ -15,10 +15,10 @@ const WrappeUp = () => {
     <Navbar />
     <Home />
     <CardsDisplay />
+    <ProductsDisplay />
     <ShowedCategoryToHome />
     {/* <AddProducts /> */}
     {/* <AddProductCategory /> */}
-    {/* <ProductsDisplay /> */}
 
 
     </>

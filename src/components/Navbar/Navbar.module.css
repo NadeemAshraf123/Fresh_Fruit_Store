@@ -65,6 +65,30 @@
   color: #4CAF50;
 }
 
+.pagesbutton.activeLink {
+  color: green;
+  /* or any other active styles you want */
+  border-bottom: 2px solid green;
+  font-weight: bold;
+}
+
+/* If you want the dropdown buttons to show active state when on their pages */
+.pagesdropbutton.activeLink {
+  color: green;
+  background-color: #f0fff0;
+}
+
+
+.activeLink {
+  color: green !important;
+  /* Add any other styles you want for active links */
+}
+
+/* Optional: If you want to keep hover styles */
+.navlinks a:hover {
+  /* your existing hover styles */
+}
+
 /* Right Section - Login, User, Search */
 .rightSection {
   flex: 0 0 auto;

@@ -192,6 +192,8 @@ const AddProducts = () => {
   return (
     <>
               {/* add product  */}
+        <h3 style={{textAlign:'center', color:'#007BFF'}}>Add product & Display Table Form</h3>
+
 
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <div className={styles.formGroup}>
