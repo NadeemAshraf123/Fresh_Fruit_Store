@@ -13,14 +13,14 @@ const LoginButton: React.FC<Props> = ({ loggedUser }) => {
     style={{backgroundColor:'transparent',border:'none',fontSize:'14px',fontWeight:'bold',marginBottom:'9px'}}
       onClick={() => {
         localStorage.removeItem('loggedInUser');
-        navigate('/loginpage');                      
+        navigate('/login');                      
       }}
     >
       Logout
     </button>
   ) : (
     
-    <Link to="/loginpage">
+    <Link to="/login">
       <button style={{background:'transparent', border:'none', fontSize:'14px',fontWeight:'bold'}}>Login</button>
     </Link>
   );

@@ -15,7 +15,7 @@ const WrappeUp = () => {
     <Navbar />
     <Home />
     <CardsDisplay />
-    <ProductsDisplay />
+    {/* <ProductsDisplay /> */}
     <ShowedCategoryToHome />
     {/* <AddProducts /> */}
     {/* <AddProductCategory /> */}

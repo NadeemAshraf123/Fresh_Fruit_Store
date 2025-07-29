@@ -10,7 +10,7 @@ const FreshStoreFooter = () => {
       <div className={styles.footer_container}>
 
         <div className={styles.footer_section}>
-          <h3 className={styles.footer_tittle}> Fresh Store</h3>
+          <h3 className={styles.tittle}> Fresh Store</h3>
           <p className={styles.footer_text}> 
             Bringing you the freshest fruits, vegetables, and more -- straight to your door.
           </p>

@@ -4,7 +4,14 @@
   flex-wrap: wrap;
   gap: 30px;
   padding: 50px 20px;
-  background-color: #f6f6f6;
+  /* background-color: #f6f6f6; */
+  background-color: #cc9900;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
 }
 
 .card {

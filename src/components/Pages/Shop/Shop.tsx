@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import styles from './ShopProductDisplay.module.css';
+
 
 const Shop = () => {
   const location = useLocation();
@@ -14,7 +16,6 @@ const Shop = () => {
       const JSONProducts = fetchedProducts ? JSON.parse(fetchedProducts) : [];
       setProducts(JSONProducts);
 
-      // Extract unique categories from products
       const extractedCategories = JSONProducts.reduce((acc: string[], product) => {
         const categoryName = product.category?.name || 
                           (product.category || "").toString().split(" | ")[1]?.trim();
@@ -45,6 +46,13 @@ const Shop = () => {
 
   return (
     <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+
+       <h6 className={styles.fadeheading} 
+       style={{ marginBottom: '15px', textTransform: 'capitalize',textAlign:'center',color: 'darkgreen' }}>
+          {activeCategory} ({currentProducts.length})
+        </h6>
+
+
       <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>Product's Display</h1>
       
       <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '30px', flexWrap: 'wrap' }}>
@@ -68,9 +76,9 @@ const Shop = () => {
       </div>
     
       <div style={{ marginBottom: '40px' }}>
-        <h2 style={{ marginBottom: '15px', textTransform: 'capitalize' }}>
+        {/* <h2 style={{ marginBottom: '15px', textTransform: 'capitalize' }}>
           {activeCategory} ({currentProducts.length})
-        </h2>
+        </h2> */}
         
         <div style={{  
           display: 'grid',  

@@ -1,0 +1,139 @@
+
+.aboutContainer {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333333;
+}
+
+
+.heroBanner {
+  background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e');
+  background-size: "cover";
+  background-position: center;
+  height: 400px;
+  position: "relative";
+  display: flex;
+  align-items: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroOverlay {
+  background-color: rgba(76, 175, 80, 0.7);
+  padding: 2rem;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.heroOverlay h1 {
+  color: white;
+  font-size: 3rem;
+  margin: 0;
+}
+
+
+.storySection {
+  display: flex;
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 3rem;
+}
+
+.storyImage {
+  flex: 1;
+  background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc');
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  min-height: 300px;
+}
+
+.storyContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.storyContent h2 {
+  color: #4CAF50;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.storyContent p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+
+.valuesSection {
+  background-color: #f9f9f9;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.valuesSection h2 {
+  color: #4CAF50;
+  font-size: 2rem;
+  margin-bottom: 3rem;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.valueCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.valueCard:hover {
+  transform: translateY(-5px);
+}
+
+.valueIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.valueCard h3 {
+  color: #FFA726;
+  margin-bottom: 1rem;
+}
+
+/* Button */
+.learnMoreBtn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.learnMoreBtn:hover {
+  background-color: #3d8b40;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .storySection {
+    flex-direction: column;
+  }
+  
+  .heroOverlay h1 {
+    font-size: 2rem;
+  }
+}

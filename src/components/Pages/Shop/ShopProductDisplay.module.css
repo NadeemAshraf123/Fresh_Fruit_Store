@@ -1,0 +1,8 @@
+.fadeheading {
+  color: #4B5563; /* cool gray */
+  background: transparent;
+  transition: color 300ms ease-in-out;
+}
+.fadeheading.active {
+  color: #1F2937; /* darker gray */
+}

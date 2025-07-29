@@ -39,103 +39,52 @@ const AddProducts = () => {
     setUsersCategories(Categories);
   }, []);
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   if (!validate()) return;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
 
-  //   if (productImages.length > 0) {
-  //     const imagePromises = productImages.map((file) => {
-  //       return new Promise<string>((resolve, reject) => {
-  //         const reader = new FileReader();
-  //         reader.onloadend = () => resolve(reader.result as string);
-  //         reader.onerror = reject;
-  //         reader.readAsDataURL(file);
-  //       });
-  //     });
-
-  //     Promise.all(imagePromises).then((base64Images) => {
-
-  //       const selectedCategoroyObjects = usersCategories.filter((cat) => productCategory.includes(cat.id))
-  //         .map((cat) => ({
-  //           id: cat.id,
-  //           name: cat.name
-  //         }));
-
-  //       const newProduct = {
-  //         id: uuidv4(),
-  //         name: productName,
-  //         price: productPrice,
-  //         images: base64Images,
-  //         category: productCategory, // Array of category IDs
-  //         rating: productRating,
-  //         isFeatured: isFeatured === "true"
-  //       };
-
-  //       const existingProducts = JSON.parse(localStorage.getItem("products") || "[]");
-  //       existingProducts.push(newProduct);
-  //       localStorage.setItem("products", JSON.stringify(existingProducts));
-  //       setTableProducts(existingProducts);
-  //       toast.success("Product added successfully with image(s)");
-
-  //       // Reset form
-  //       setProductName("");
-  //       setProductPrice("");
-  //       setProductImages([]);
-  //       setProductCategory([]);
-  //       setProductRating(0);
-  //       setIsFeatured("false");
-  //       setErrors({});
-  //     });
-  //   }
-  // };
-const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!validate()) return;
-
-  if (productImages.length > 0) {
-    const imagePromises = productImages.map((file) => {
-      return new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
+    if (productImages.length > 0) {
+      const imagePromises = productImages.map((file) => {
+        return new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
       });
-    });
 
-    Promise.all(imagePromises).then((base64Images) => {
-      // ✅ Safely extract ID and name from selected category object
-      const selectedCategoryObject = {
-        id: productCategory?.id,
-        name: productCategory?.name
-      };
+      Promise.all(imagePromises).then((base64Images) => {
+        const selectedCategoryObject = {
+          id: productCategory?.id,
+          name: productCategory?.name
+        };
 
-      const newProduct = {
-        id: uuidv4(),
-        name: productName,
-        price: productPrice,
-        images: base64Images,
-        category: selectedCategoryObject, // ✅ Single category object assigned
-        rating: productRating,
-        isFeatured: isFeatured === "true"
-      };
+        const newProduct = {
+          id: uuidv4(),
+          name: productName,
+          price: productPrice,
+          images: base64Images,
+          category: selectedCategoryObject,
+          rating: productRating,
+          isFeatured: isFeatured === "true"
+        };
 
-      const existingProducts = JSON.parse(localStorage.getItem("products") || "[]");
-      existingProducts.push(newProduct);
-      localStorage.setItem("products", JSON.stringify(existingProducts));
-      setTableProducts(existingProducts);
-      toast.success("Product added successfully with image(s)");
+        const existingProducts = JSON.parse(localStorage.getItem("products") || "[]");
+        existingProducts.push(newProduct);
+        localStorage.setItem("products", JSON.stringify(existingProducts));
+        setTableProducts(existingProducts);
+        toast.success("Product added successfully with image(s)");
 
-      // ✅ Reset form properly
-      setProductName("");
-      setProductPrice("");
-      setProductImages([]);
-      setProductCategory(null); // ✅ Since we use an object now, reset to null
-      setProductRating(0);
-      setIsFeatured("false");
-      setErrors({});
-    });
-  }
-};
+        setProductName("");
+        setProductPrice("");
+        setProductImages([]);
+        setProductCategory(null); 
+        setProductRating(0);
+        setIsFeatured("false");
+        setErrors({});
+      });
+    }
+  };
 
 
 
@@ -185,55 +134,36 @@ const handleSubmit = (e: React.FormEvent) => {
     setEditingProduct(null);
     setIsEditing(false);
   };
-//  const saveEditProduct = () => {
-//     const selectedCategoryObjects = usersCategories.filter((cat) => productCategory.includes(cat.id))
-//       .map((cat) => ({
-//         id: cat.id,
-//         name: cat.name
-//       }));
-//     const updatedProduct = {
-//       ...editingProduct,
-//       category: selectedCategoryObjects
-//     };
-//     const updatedList = tableProducts.map((p) =>
-//       p.id === editingProduct.id ? editingProduct : p
-//     );
+  
 
-//     localStorage.setItem("products", JSON.stringify(updatedList));
-//     setTableProducts(updatedList);
-//     setIsEditing(false);
-//     setEditingProduct(null);
-//     toast.success("Product updated successfully");
-//   };
+  const saveEditProduct = () => {
+    const selectedCategory = usersCategories.find(
+      (cat) => productCategory == cat.id
+    );
 
-const saveEditProduct = () => {
-  const selectedCategory = usersCategories.find(
-    (cat) => productCategory == cat.id
-  );
-
-  if (!selectedCategory) {
-    toast.error("Selected category not found!");
-    return;
-  }
-
-  const updatedProduct = {
-    ...editingProduct,
-    category: {
-      id: selectedCategory.id,
-      name: selectedCategory.name
+    if (!selectedCategory) {
+      toast.error("Selected category not found!");
+      return;
     }
+
+    const updatedProduct = {
+      ...editingProduct,
+      category: {
+        id: selectedCategory.id,
+        name: selectedCategory.name
+      }
+    };
+
+    const updatedList = tableProducts.map((p) =>
+      p.id === editingProduct.id ? updatedProduct : p
+    );
+
+    localStorage.setItem("products", JSON.stringify(updatedList));
+    setTableProducts(updatedList);
+    setIsEditing(false);
+    setEditingProduct(null);
+    toast.success("Product updated successfully");
   };
-
-  const updatedList = tableProducts.map((p) =>
-    p.id === editingProduct.id ? updatedProduct : p
-  );
-
-  localStorage.setItem("products", JSON.stringify(updatedList));
-  setTableProducts(updatedList);
-  setIsEditing(false);
-  setEditingProduct(null);
-  toast.success("Product updated successfully");
-};
 
 
 
@@ -360,22 +290,22 @@ const saveEditProduct = () => {
         </div> */}
 
         <select
-  value={productCategory?.id || ""}
-  onChange={(e) => {
-    const selectedCat = usersCategories.find(cat => cat.id === e.target.value);
-    setProductCategory(selectedCat); // ✅ Assigning full {id, name, ...} object
-  }}
-  className={styles.input}
->
-  <option value="" disabled hidden>Select Category</option>
-  {usersCategories
-    .filter((category) => category.isActive)
-    .map((category) => (
-      <option key={category.id} value={category.id}>
-        {category.name}
-      </option>
-    ))}
-</select>
+          value={productCategory?.id || ""}
+          onChange={(e) => {
+            const selectedCat = usersCategories.find(cat => cat.id === e.target.value);
+            setProductCategory(selectedCat);
+          }}
+          className={styles.input}
+        >
+          <option value="" disabled hidden>Select Category</option>
+          {usersCategories
+            .filter((category) => category.isActive)
+            .map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+        </select>
 
 
         <div className={styles.formGroup}>
@@ -539,9 +469,9 @@ const saveEditProduct = () => {
     ? <span>{item.category.name}</span>
     : "-"}
 </td> */}
-<td>
-  {item.category?.name ? <span>{item.category.name}</span> : "-"}
-</td>
+                <td>
+                  {item.category?.name ? <span>{item.category.name}</span> : "-"}
+                </td>
 
 
 

@@ -13,7 +13,6 @@ const Home = () => {
           <button className={styles.shopBtn}>Shop Now</button>
         </div>
         <div className={styles.imageArea}>
-          {/* <img src="my-app/src/assets/main.jpg" alt="Fresh Basket" /> */}
 
         </div>
       </div>

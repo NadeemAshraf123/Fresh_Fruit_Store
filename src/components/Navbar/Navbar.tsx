@@ -77,10 +77,10 @@ const Navbar = () => {
   const handleSearch = () => {
 
     const searchedvalues = searchValues.trim();
-          if (!searchedvalues) {
-            alert("Please enter a product name or price to search");
-            return;
-          }
+    if (!searchedvalues) {
+      alert("Please enter a product name or price to search");
+      return;
+    }
 
     const data = localStorage.getItem("products") || "[]";
     const JSONProducts = JSON.parse(data);
@@ -88,7 +88,7 @@ const Navbar = () => {
 
     const foundItem = JSONProducts.find((item: any) =>
       item.name.toLowerCase().includes(searchedvalues.toLowerCase()) ||
-       item.price === searchedvalues
+      item.price === searchedvalues
     );
 
     setSelectedProduct(foundItem || null);
@@ -115,14 +115,17 @@ const Navbar = () => {
   return (
     <>
       <nav className={styles.mainnavbaar}>
-    
+
         <div className={styles.leftSection}>
-          <Link to="/freshstore" className={`${location.pathname === '/freshstore' ? styles.activeLink : ""}`}>
+          <Link
+            to="/freshstore"
+            className={`${styles.link} ${location.pathname.startsWith('/freshstore') ? styles.activeLink : ""}`}
+          >
             Fresh Store
           </Link>
         </div>
 
-    
+
 
         <div className={styles.centerSection}>
           <ul className={styles.navlinks}>
@@ -131,7 +134,7 @@ const Navbar = () => {
             </li>
 
 
-            
+
             <li>
               <Link to="/shop" className={`${location.pathname === '/shop' ? styles.activeLink : ""}`}>Shop</Link>
             </li>
@@ -139,11 +142,11 @@ const Navbar = () => {
             {loggedUser && (
               <li className={styles.pagesdrop}>
                 <button
-                  className={`${styles.pagesbutton} ${isPagesDrop || 
-                    location.pathname === "/add-product" || location.pathname === "/addproductcategory" 
+                  className={`${styles.pagesbutton} ${isPagesDrop ||
+                    location.pathname === "/add-product" || location.pathname === "/addproductcategory"
                     ? styles.activeLink
                     : ""
-                  }`}
+                    }`}
                   onClick={HandlePagesDropdown}
                 >
                   Manage
@@ -172,7 +175,7 @@ const Navbar = () => {
             )}
 
             <li>
-              <Link to="/aboutus" className={`${location.pathname === '/aboutus' ? styles.activeLink : ""}`}>About</Link>
+              <Link to="/aboutpage" className={`${location.pathname === '/aboutpage' ? styles.activeLink : ""}`}>About</Link>
             </li>
             {/* <li className={styles.dropdown}>
               <button className={styles.dropdownToggle} onClick={toggleDropdown}>
@@ -198,7 +201,7 @@ const Navbar = () => {
         </div>
         <div className={styles.rightSection}>
 
-          <LoginButton  loggedUser={loggedUser} />
+          <LoginButton loggedUser={loggedUser} />
 
 
           {loggedUser && (
@@ -218,16 +221,16 @@ const Navbar = () => {
               onChange={(e) => setSearchValues(e.target.value)}
               className={styles.searchbarinput}
               onKeyPress={(e) => {
-                  if (e.key === 'Enter' && searchValues.trim()) {
-                    handleSearch();
-                  }
+                if (e.key === 'Enter' && searchValues.trim()) {
+                  handleSearch();
+                }
               }}
             />
-            <button 
-                onClick={handleSearch}
-                // disabled={!searchValues.trim()}
-                className={!searchValues.trim() ? styles.disabledButton : ''}
-                >
+            <button
+              onClick={handleSearch}
+              // disabled={!searchValues.trim()}
+              className={!searchValues.trim() ? styles.disabledButton : ''}
+            >
 
               <FontAwesomeIcon icon={faSearch} />
             </button>

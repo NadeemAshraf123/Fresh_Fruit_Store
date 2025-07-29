@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
-// import main from '../../assets/fruits/main.jpg';
+import main from '../../../../assets/fruits/main.jpg';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import styles from './SignUpPage.module.css';
@@ -64,7 +64,7 @@ const SignUpPage: React.FC = () => {
       <div 
         className={styles.backgroundBlur}
         style={{ 
-          // backgroundImage: `url(${main})`, 
+          backgroundImage: `url(${main})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
@@ -113,7 +113,7 @@ const SignUpPage: React.FC = () => {
           </form>
           <div className={styles.signupFooter}>
             <div className={styles.signupText}>
-              <p> Already have an account? <Link to="/loginpage" className={styles.TologinPageLink}> LogIn </Link> </p>
+              <p className={styles.signuptext}> Already have an account? <Link to="/login" className={styles.TologinPageLink}> LogIn </Link> </p>
             </div>
           </div>
         </div>

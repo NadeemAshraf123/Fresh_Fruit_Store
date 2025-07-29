@@ -3,8 +3,9 @@
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  background-color: #f8f9fa;
-  background-color: transparent;
+  /* background-color: #f8f9fa; */
+   background-color: #cc9900;
+  /* background-color: transparent; */
   min-height: 100vh;
 }
 
