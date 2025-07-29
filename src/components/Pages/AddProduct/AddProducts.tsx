@@ -31,56 +31,113 @@ const AddProducts = () => {
     const storedProducts = JSON.parse(localStorage.getItem("products") || "[]");
 
     const Categories = JSON.parse(localStorage.getItem("categoryname") || "[]");
-    
-    console.log("Loaded products:" , storedProducts);
-    console.log("Loaded categories:" , Categories);
+
+    console.log("Loaded products:", storedProducts);
+    console.log("Loaded categories:", Categories);
 
     setTableProducts(storedProducts);
     setUsersCategories(Categories);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!validate()) return;
 
-    if (productImages.length > 0) {
-      const imagePromises = productImages.map((file) => {
-        return new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      });
+  //   if (productImages.length > 0) {
+  //     const imagePromises = productImages.map((file) => {
+  //       return new Promise<string>((resolve, reject) => {
+  //         const reader = new FileReader();
+  //         reader.onloadend = () => resolve(reader.result as string);
+  //         reader.onerror = reject;
+  //         reader.readAsDataURL(file);
+  //       });
+  //     });
 
-      Promise.all(imagePromises).then((base64Images) => {
-        const newProduct = {
-          id: uuidv4(),
-          name: productName,
-          price: productPrice,
-          images: base64Images,
-          category: productCategory, // Array of category IDs
-          rating: productRating,
-          isFeatured: isFeatured === "true"
-        };
-        
-        const existingProducts = JSON.parse(localStorage.getItem("products") || "[]");
-        existingProducts.push(newProduct);
-        localStorage.setItem("products", JSON.stringify(existingProducts));
-        setTableProducts(existingProducts);
-        toast.success("Product added successfully with image(s)");
-        
-        // Reset form
-        setProductName("");
-        setProductPrice("");
-        setProductImages([]);
-        setProductCategory([]);
-        setProductRating(0);
-        setIsFeatured("false");
-        setErrors({});
+  //     Promise.all(imagePromises).then((base64Images) => {
+
+  //       const selectedCategoroyObjects = usersCategories.filter((cat) => productCategory.includes(cat.id))
+  //         .map((cat) => ({
+  //           id: cat.id,
+  //           name: cat.name
+  //         }));
+
+  //       const newProduct = {
+  //         id: uuidv4(),
+  //         name: productName,
+  //         price: productPrice,
+  //         images: base64Images,
+  //         category: productCategory, // Array of category IDs
+  //         rating: productRating,
+  //         isFeatured: isFeatured === "true"
+  //       };
+
+  //       const existingProducts = JSON.parse(localStorage.getItem("products") || "[]");
+  //       existingProducts.push(newProduct);
+  //       localStorage.setItem("products", JSON.stringify(existingProducts));
+  //       setTableProducts(existingProducts);
+  //       toast.success("Product added successfully with image(s)");
+
+  //       // Reset form
+  //       setProductName("");
+  //       setProductPrice("");
+  //       setProductImages([]);
+  //       setProductCategory([]);
+  //       setProductRating(0);
+  //       setIsFeatured("false");
+  //       setErrors({});
+  //     });
+  //   }
+  // };
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!validate()) return;
+
+  if (productImages.length > 0) {
+    const imagePromises = productImages.map((file) => {
+      return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
       });
-    }
-  };
+    });
+
+    Promise.all(imagePromises).then((base64Images) => {
+      // ✅ Safely extract ID and name from selected category object
+      const selectedCategoryObject = {
+        id: productCategory?.id,
+        name: productCategory?.name
+      };
+
+      const newProduct = {
+        id: uuidv4(),
+        name: productName,
+        price: productPrice,
+        images: base64Images,
+        category: selectedCategoryObject, // ✅ Single category object assigned
+        rating: productRating,
+        isFeatured: isFeatured === "true"
+      };
+
+      const existingProducts = JSON.parse(localStorage.getItem("products") || "[]");
+      existingProducts.push(newProduct);
+      localStorage.setItem("products", JSON.stringify(existingProducts));
+      setTableProducts(existingProducts);
+      toast.success("Product added successfully with image(s)");
+
+      // ✅ Reset form properly
+      setProductName("");
+      setProductPrice("");
+      setProductImages([]);
+      setProductCategory(null); // ✅ Since we use an object now, reset to null
+      setProductRating(0);
+      setIsFeatured("false");
+      setErrors({});
+    });
+  }
+};
+
+
 
   const handleImageChange = (e: any) => {
     if (e.target.files) {
@@ -119,6 +176,8 @@ const AddProducts = () => {
 
   const startEdit = (product: any) => {
     setEditingProduct({ ...product });
+    setProductCategory(product.category);
+
     setIsEditing(true);
   };
 
@@ -126,18 +185,61 @@ const AddProducts = () => {
     setEditingProduct(null);
     setIsEditing(false);
   };
+//  const saveEditProduct = () => {
+//     const selectedCategoryObjects = usersCategories.filter((cat) => productCategory.includes(cat.id))
+//       .map((cat) => ({
+//         id: cat.id,
+//         name: cat.name
+//       }));
+//     const updatedProduct = {
+//       ...editingProduct,
+//       category: selectedCategoryObjects
+//     };
+//     const updatedList = tableProducts.map((p) =>
+//       p.id === editingProduct.id ? editingProduct : p
+//     );
 
-  const saveEditProduct = () => {
-    const updatedList = tableProducts.map((p) =>
-      p.id === editingProduct.id ? editingProduct : p
-    );
+//     localStorage.setItem("products", JSON.stringify(updatedList));
+//     setTableProducts(updatedList);
+//     setIsEditing(false);
+//     setEditingProduct(null);
+//     toast.success("Product updated successfully");
+//   };
 
-    localStorage.setItem("products", JSON.stringify(updatedList));
-    setTableProducts(updatedList);
-    setIsEditing(false);
-    setEditingProduct(null);
-    toast.success("Product updated successfully");
+const saveEditProduct = () => {
+  const selectedCategory = usersCategories.find(
+    (cat) => productCategory == cat.id
+  );
+
+  if (!selectedCategory) {
+    toast.error("Selected category not found!");
+    return;
+  }
+
+  const updatedProduct = {
+    ...editingProduct,
+    category: {
+      id: selectedCategory.id,
+      name: selectedCategory.name
+    }
   };
+
+  const updatedList = tableProducts.map((p) =>
+    p.id === editingProduct.id ? updatedProduct : p
+  );
+
+  localStorage.setItem("products", JSON.stringify(updatedList));
+  setTableProducts(updatedList);
+  setIsEditing(false);
+  setEditingProduct(null);
+  toast.success("Product updated successfully");
+};
+
+
+
+
+
+
 
   const deleteProduct = (id: string) => {
     const filtered = tableProducts.filter((p) => p.id !== id);
@@ -170,16 +272,16 @@ const AddProducts = () => {
       .toLowerCase()
       .includes(searchName.toLowerCase());
 
-    const categoryMatch = searchCategory === "" || 
-      (Array.isArray(item.category) 
+    const categoryMatch = searchCategory === "" ||
+      (Array.isArray(item.category)
         ? item.category.some((catId: string) => {
-            const category = usersCategories.find(c => c.id === catId);
-            return category?.name.toLowerCase().includes(searchCategory.toLowerCase());
-          })
+          const category = usersCategories.find(c => c.id === catId);
+          return category?.name.toLowerCase().includes(searchCategory.toLowerCase());
+        })
         : (() => {
-            const category = usersCategories.find(c => c.id === item.category);
-            return category?.name.toLowerCase().includes(searchCategory.toLowerCase());
-          })()
+          const category = usersCategories.find(c => c.id === item.category);
+          return category?.name.toLowerCase().includes(searchCategory.toLowerCase());
+        })()
       );
 
     const featuredMatch = checkFeaturedMatch(item.isFeatured, searchFeatured);
@@ -195,8 +297,8 @@ const AddProducts = () => {
 
   return (
     <>
-              {/* add product  */}
-        <h3 style={{textAlign:'center', color:'#007BFF'}}>Add product & Display Table Form</h3>
+      {/* add product  */}
+      <h3 style={{ textAlign: 'center', color: '#007BFF' }}>Add product & Display Table Form</h3>
 
 
       <form onSubmit={handleSubmit} className={styles.formContainer}>
@@ -230,7 +332,7 @@ const AddProducts = () => {
           )}
         </div>
 
-        <div className={styles.formGroup}>
+        {/* <div className={styles.formGroup}>
           <label className={styles.label}>
             Category:
             <select
@@ -255,7 +357,26 @@ const AddProducts = () => {
           {errors.productCategory && (
             <div className={styles.errorText}>{errors.productCategory}</div>
           )}
-        </div>
+        </div> */}
+
+        <select
+  value={productCategory?.id || ""}
+  onChange={(e) => {
+    const selectedCat = usersCategories.find(cat => cat.id === e.target.value);
+    setProductCategory(selectedCat); // ✅ Assigning full {id, name, ...} object
+  }}
+  className={styles.input}
+>
+  <option value="" disabled hidden>Select Category</option>
+  {usersCategories
+    .filter((category) => category.isActive)
+    .map((category) => (
+      <option key={category.id} value={category.id}>
+        {category.name}
+      </option>
+    ))}
+</select>
+
 
         <div className={styles.formGroup}>
           <label className={styles.label}>
@@ -277,11 +398,11 @@ const AddProducts = () => {
           <label className={styles.label}>
             Product Rating:
             <div className={styles.ratingContainer} >
-              {[1, 2, 3, 4 ,5].map((star) => (
-                <span key={star} className={`${styles.star} ${star <= productRating ? styles.filled : '' } `}
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span key={star} className={`${styles.star} ${star <= productRating ? styles.filled : ''} `}
                   onClick={() => setProductRating(star)}>
-                    *
-                 </span>
+                  *
+                </span>
 
               ))}
             </div>
@@ -322,7 +443,7 @@ const AddProducts = () => {
         </button>
       </form>
 
-            {/* TABLE */}
+      {/* TABLE */}
 
 
       <h2 className={styles.AddProductstableheading}>Add Product Table</h2>
@@ -390,52 +511,39 @@ const AddProducts = () => {
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>${item.price}</td>
+                {/* <td>
+                  {(() => {
+                    if (!item.category || item.category.length === 0) return "-";
+
+                    const categoriesToShow = Array.isArray(item.category)
+                      ? item.category
+                      : [item.category];
+
+                    return (
+                      <ul style={{ padding: 0, margin: 0, listStyle: "none" }}>
+                        {categoriesToShow.map((catId: string) => {
+                          const category = usersCategories.find(c => c.id === catId);
+                          return category ? (
+                            <li key={catId} style={{ margin: "4px", padding: "4px 0" }}>
+                              {category.name} 
+                            </li>
+                          ) : null; 
+                        }).filter(Boolean)} 
+                      </ul>
+                    );
+                  })()}
+                </td> */}
 
                 {/* <td>
-                  {Array.isArray(item.category) ? (
-                    <ul style={{ padding: 0, margin: 0, listStyle: "decimal" }}>
-                      {item.category.map((catId: string) => {
-                        const category = usersCategories.find(c => c.id === catId);
-                        return category ? (
-                          <li
-                            key={catId}
-                            style={{
-                              margin: "4px",
-                              textIndent: "-4px",
-                              padding: "4px 0"
-                            }}
-                          >
-                            {category.name}
-                          </li>
-                        ) : null;
-                      })}
-                    </ul>
-                  ) : (
-                    usersCategories.find((c) => c.id === item.category)?.name || "Unknown"
-                  )}
-                </td> */}
-                <td>
-  {(() => {
-    if (!item.category || item.category.length === 0) return "-";
-    
-    const categoriesToShow = Array.isArray(item.category) 
-      ? item.category
-      : [item.category];
-    
-    return (
-      <ul style={{ padding: 0, margin: 0, listStyle: "none" }}>
-        {categoriesToShow.map((catId: string) => {
-          const category = usersCategories.find(c => c.id === catId);
-          return category ? (
-            <li key={catId} style={{ margin: "4px", padding: "4px 0" }}>
-              {category.name} {/* Only show name */}
-            </li>
-          ) : null; // Return null for unknown categories (won't display)
-        }).filter(Boolean)} {/* Remove null entries */}
-      </ul>
-    );
-  })()}
+  {typeof item.category === "object" && item.category?.name
+    ? <span>{item.category.name}</span>
+    : "-"}
+</td> */}
+<td>
+  {item.category?.name ? <span>{item.category.name}</span> : "-"}
 </td>
+
+
 
                 <td>
                   {Array.isArray(item.images) ? (
@@ -470,12 +578,12 @@ const AddProducts = () => {
                   )}
                 </td>
 
-              <td>
-                {Array.from({ length: item.rating || 0}).map((_ , i) => (
-                  <span key={i} style={{ color: 'gold' }}> * </span>
-                ))}
-                {item.rating === 0 && <span>NO rating</span>}
-              </td>
+                <td>
+                  {Array.from({ length: item.rating || 0 }).map((_, i) => (
+                    <span key={i} style={{ color: 'gold' }}> * </span>
+                  ))}
+                  {item.rating === 0 && <span>NO rating</span>}
+                </td>
 
 
 
@@ -567,7 +675,7 @@ const AddProducts = () => {
 
             <div className={styles.modalformGroup}>
               <label className={styles.label}>Product Images:</label>
-              
+
               {editingProduct.images && Array.isArray(editingProduct.images) && (
                 <div style={{ marginBottom: "1rem" }}>
                   {editingProduct.images.map((imgSrc: string, i: number) => (
@@ -619,16 +727,16 @@ const AddProducts = () => {
             <label className={styles.label}>
               Product Rating:
               <div className={styles.ratingContainer}>
-                {[1,2,3,4,5].map((star) => (
-                  <span 
-                  key={star}
-                  className={`${styles.star} ${star <= editingProduct.rating ? styles.filled : ''}`}
-                  onClick={() => setEditingProduct({
-                    ...editingProduct,
-                    rating: star
-                  })}
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    className={`${styles.star} ${star <= editingProduct.rating ? styles.filled : ''}`}
+                    onClick={() => setEditingProduct({
+                      ...editingProduct,
+                      rating: star
+                    })}
                   >
-                  *
+                    *
                   </span>
                 ))}
               </div>
@@ -684,7 +792,7 @@ const AddProducts = () => {
           </div>
         </div>
       )}
-      
+
       <ToastContainer />
     </>
   );
