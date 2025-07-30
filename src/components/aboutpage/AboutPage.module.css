@@ -6,16 +6,16 @@
 
 
 .heroBanner {
-  background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e');
-  background-size: "cover";
+  /* background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e'); */
+  background-size: cover;
   background-position: center;
-  height: 400px;
-  position: "relative";
+  height: 100vh;
+  position: relative;
   display: flex;
-  align-items: center;
   align-items: center;
   justify-content: center;
 }
+
 
 .heroOverlay {
   background-color: rgba(76, 175, 80, 0.7);

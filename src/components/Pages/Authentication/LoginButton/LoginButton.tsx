@@ -3,16 +3,18 @@ import { useNavigate, Link } from 'react-router-dom';
 
 interface Props {
   loggedUser: any;
+  onLogout: () => void;
 }
-
-const LoginButton: React.FC<Props> = ({ loggedUser }) => {
+const LoginButton: React.FC<{ loggedUser: any; onLogout: () => void }> = ({ loggedUser, onLogout  }) => {
   const navigate = useNavigate();
 
   return loggedUser ? (
     <button
-    style={{backgroundColor:'transparent',border:'none',fontSize:'14px',fontWeight:'bold',marginBottom:'9px'}}
+    style={{backgroundColor:'transparent',border:'none',fontSize:'14px',fontWeight:'bold',marginBottom:'9px',cursor:'pointer'}}
       onClick={() => {
         localStorage.removeItem('loggedInUser');
+        localStorage.removeItem('isAuthenticated');
+        onLogout();
         navigate('/login');                      
       }}
     >
@@ -21,7 +23,9 @@ const LoginButton: React.FC<Props> = ({ loggedUser }) => {
   ) : (
     
     <Link to="/login">
-      <button style={{background:'transparent', border:'none', fontSize:'14px',fontWeight:'bold'}}>Login</button>
+      <button style={{background:'transparent', border:'none', fontSize:'14px',fontWeight:'bold',cursor:'pointer'}}>
+        Login
+      </button>
     </Link>
   );
 };

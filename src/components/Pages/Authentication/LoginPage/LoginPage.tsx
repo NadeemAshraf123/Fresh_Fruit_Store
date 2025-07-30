@@ -6,7 +6,7 @@ import { set } from 'react-hook-form';
 
 interface LoginProps {}
 
-const LoginPage: React.FC<LoginProps> = () => {
+const LoginPage: React.FC<LoginProps> = ({ setIsAuthenticated }: { setIsAuthenticated: (value: boolean) => void }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [message, setMessage] = useState<string | null>(null);
@@ -54,10 +54,12 @@ const LoginPage: React.FC<LoginProps> = () => {
 
    localStorage.setItem("loggedInUser", JSON.stringify(user));
    localStorage.setItem("isAuthenticated", "true");
+   setIsAuthenticated(true);
 
    setTimeout(() => {
     navigate(from, { replace: true });
    }, 1000);
+
     } catch (error) {
       setMessage("Login failed. Please try again.");
       setMessageType('error');

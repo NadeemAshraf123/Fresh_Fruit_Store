@@ -1,17 +1,24 @@
 import React from 'react';
 import styles from './AboutPage.module.css';
+import bgImage from '../../assets/backgroundimages/NEW.jpg';
 
 const AboutPage = () => {
   return (
     <div className={styles.aboutContainer}>
-      {/* Hero Banner */}
-      <section className={styles.heroBanner}>
-        <div className={styles.heroOverlay}>
+      
+      <section
+      style={{ backgroundImage: `url(${bgImage})`,
+              //  backgroundRepeat: 'no-repeat', 
+              //  backgroundSize: 'cover',
+              //  backgroundPosition:'center'
+               }}
+      className={styles.heroBanner}>
+        {/* <div className={styles.heroOverlay}>
           <h1>Our Story</h1>
-        </div>
+        </div> */}
       </section>
 
-      {/* Our Story Section */}
+    
       <section className={styles.storySection}>
         <div className={styles.storyImage}></div>
         <div className={styles.storyContent}>
@@ -30,7 +37,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Values Section */}
+    
       <section className={styles.valuesSection}>
         <h2>Our Values</h2>
         <div className={styles.valuesGrid}>

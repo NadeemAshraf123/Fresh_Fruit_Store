@@ -510,7 +510,7 @@ const AddProducts = () => {
 
                 <td>
                   {Array.from({ length: item.rating || 0 }).map((_, i) => (
-                    <span key={i} style={{ color: 'gold' }}> * </span>
+                    <span key={i} style={{ color: 'gold',fontSize:'30px' }}> * </span>
                   ))}
                   {item.rating === 0 && <span>NO rating</span>}
                 </td>

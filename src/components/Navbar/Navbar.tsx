@@ -16,7 +16,9 @@ type Product = {
   images?: string[];
 };
 
-const Navbar = () => {
+const Navbar = ( { onLogout }: { onLogout: () => void }) => {
+  // const loggedUser = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchValues, setSearchValues] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -201,7 +203,7 @@ const Navbar = () => {
         </div>
         <div className={styles.rightSection}>
 
-          <LoginButton loggedUser={loggedUser} />
+          <LoginButton loggedUser={loggedUser} onLogout={onLogout} />
 
 
           {loggedUser && (

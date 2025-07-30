@@ -8,11 +8,11 @@ import AddProductCategory from '../Pages/AddProductCategory/AddProductCategory'
 import ShowedCategoryToHome from '../Pages/ShowedCategoryToHome/ShowedCategoryToHome'
 // import ProductCategory from '../Pages/AddCategory/ProductCategory'
 
-const WrappeUp = () => {
+const WrappeUp = ({ onLogout}: { onLogout: () => void }) => {
   return (
     <>
     
-    <Navbar />
+    <Navbar onLogout={onLogout} />
     <Home />
     <CardsDisplay />
     {/* <ProductsDisplay /> */}
