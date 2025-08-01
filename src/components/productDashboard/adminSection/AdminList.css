@@ -1,0 +1,80 @@
+/* Container to match layout spacing */
+.admin-wrapper {
+  padding: 20px 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Page header (room for search/filter/profile later) */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.admin-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Table container */
+.admin-table-container {
+  overflow-x: auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Actual table */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.admin-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: #555;
+}
+
+/* Row hover effect */
+.admin-table tbody tr:hover {
+  background-color: #f0f4ff;
+  transition: background-color 0.2s ease;
+}
+
+/* Action button */
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+}
+
+/* Responsive table scroll */
+@media (max-width: 768px) {
+  .admin-wrapper {
+    padding: 15px 20px;
+  }
+
+  .admin-header h2 {
+    font-size: 20px;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}

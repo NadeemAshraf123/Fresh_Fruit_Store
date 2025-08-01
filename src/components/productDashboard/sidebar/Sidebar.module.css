@@ -1,0 +1,95 @@
+/* src/components/Sidebar/Sidebar.module.css */
+
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background-color: #121212;
+  background-color: #4D44B5;
+  padding: 1rem;
+  color: white;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menuItem {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 8px;
+}
+
+.menuItem:hover {
+  background-color: #1f1f1f;
+  background-color: #F3F4FF;
+  color: #5047B6;
+}
+
+.active {
+  background-color: #333;
+  background-color: #F3F4FF;
+  color: #5047B6;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* .sidebar {
+  width: 240px;
+  background-color: #4B3DFF;
+  height: 100vh;
+  color: white;
+  padding: 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+}
+
+.navList li {
+  margin-bottom: 20px;
+}
+
+.navList a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.active {
+  background-color: #fff;
+  color: #4B3DFF;
+  padding: 8px;
+  border-radius: 5px;
+} */

@@ -1,9 +1,10 @@
 // src/components/ProductDashboard/ProductDashboard.tsx
 import React from 'react';
 import styles from './ProductDashboard.module.css';
-import ProductTableHeader from './ProductTableHeader';
-import ProductRow from './ProductRow';
-import { dummyProducts } from './DummyData';
+// import ProductTable 
+
+// import ProductRow from './ProductRow';
+// import { dummyProducts } from '../DummyData';
 
 const ProductDashboard = () => {
   return (
@@ -28,13 +29,13 @@ const ProductDashboard = () => {
       </div>
 
       {/* Table */}
-      <div className={styles.tableWrapper}>
+      {/* <div className={styles.tableWrapper}>
         <ProductTableHeader />
 
         {dummyProducts.map((product) => (
           <ProductRow key={product.id} product={product} />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
