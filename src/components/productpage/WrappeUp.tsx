@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductsDisplay from './ProductsDisplay'
+// import ProductsDisplay from './ProductsDisplay'
 import CardsDisplay from '../CardsDisplay/CardsDisplay'
 import Navbar from '../Navbar/Navbar'
 import Home from '../Home/Home'

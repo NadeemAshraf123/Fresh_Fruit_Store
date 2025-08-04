@@ -137,9 +137,9 @@
 .Allbuttonsgeneralstyling {
   cursor: pointer;
   border: none;
-  background-color: #2b7eeb;
+  background-color: transparent;
   border-radius: 6px;
-  color: white;
+  color: table;
   padding: 8px 8px;
 }
 
@@ -167,7 +167,7 @@
 
 .table th {
   background-color: #4CAF50;
-  background-color: #007bff;
+  background-color: rgb(189, 185, 185);
   color: white;
 
 }

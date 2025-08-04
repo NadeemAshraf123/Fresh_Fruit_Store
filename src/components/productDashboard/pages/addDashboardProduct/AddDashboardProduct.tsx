@@ -1,4 +1,7 @@
 import React, { useEffect } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 import styles from "./AddDashboardProduct.module.css";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -224,14 +227,12 @@ const AddProducts = () => {
 
   return (
     <>
-      {/* add product  */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems:"center", marginBottom:"1rem" }}>
         <h3 style={{ color: '#007BFF'}}> Product Management</h3>
         <button onClick={() => setShowAddModal(true)} className={styles.button}>
           Add Product
         </button>
       </div>
-      {/* <h3 style={{ textAlign: 'center', color: '#007BFF' }}>Add product & Display Table Form</h3> */}
 
 
 
@@ -364,7 +365,7 @@ const AddProducts = () => {
 
       <h2 className={styles.AddProductstableheading}>Add Product Table</h2>
 
-      <div className={styles.searchbars}>
+      {/* <div className={styles.searchbars}>
         <input
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
@@ -405,7 +406,7 @@ const AddProducts = () => {
         >
           Reset
         </button>
-      </div>
+      </div> */}
 
       {filteredProducts.length > 0 ? (
         <table className={styles.table}>
@@ -427,34 +428,7 @@ const AddProducts = () => {
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>${item.price}</td>
-                {/* <td>
-                  {(() => {
-                    if (!item.category || item.category.length === 0) return "-";
-
-                    const categoriesToShow = Array.isArray(item.category)
-                      ? item.category
-                      : [item.category];
-
-                    return (
-                      <ul style={{ padding: 0, margin: 0, listStyle: "none" }}>
-                        {categoriesToShow.map((catId: string) => {
-                          const category = usersCategories.find(c => c.id === catId);
-                          return category ? (
-                            <li key={catId} style={{ margin: "4px", padding: "4px 0" }}>
-                              {category.name} 
-                            </li>
-                          ) : null; 
-                        }).filter(Boolean)} 
-                      </ul>
-                    );
-                  })()}
-                </td> */}
-
-                {/* <td>
-  {typeof item.category === "object" && item.category?.name
-    ? <span>{item.category.name}</span>
-    : "-"}
-</td> */}
+         
                 <td>
                   {item.category?.name ? <span>{item.category.name}</span> : "-"}
                 </td>
@@ -511,13 +485,14 @@ const AddProducts = () => {
                     style={{ marginRight: "8px" }}
                     onClick={() => startEdit(item)}
                   >
-                    Edit
+                  <FontAwesomeIcon icon={faEdit} />                 
                   </button>
                   <button
                     className={styles.Allbuttonsgeneralstyling}
                     onClick={() => deleteProduct(item.id)}
                   >
-                    Delete
+                    <FontAwesomeIcon icon={faTrash} />
+                    
                   </button>
                 </td>
               </tr>
