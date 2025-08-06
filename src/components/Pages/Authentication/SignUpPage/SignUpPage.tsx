@@ -49,7 +49,7 @@ const SignUpPage: React.FC = () => {
       if (res.ok) {
         alert('User registered successfully!');
         reset();
-        navigate("/loginpage");
+        navigate("/login");
       } else {
         alert('Failed to register user.');
       }

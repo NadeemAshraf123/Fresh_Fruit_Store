@@ -1,32 +1,28 @@
 {
   "users": [
     {
-      "id": "ea44",
-      "name": "Ali",
+      "name": "Amir Shakeel",
       "email": "amirshakeeliub@gmail.com",
       "password": "Amir123@",
-      "confirmPassword": "Amir123@"
+      "id": "ea44"
     },
     {
-      "id": "6d52",
-      "name": "Amna",
-      "email": "amna123@gmail.com",
-      "password": "Amna123@",
-      "confirmPassword": "Amna123@"
-    },
-    {
-      "id": "5f40",
       "name": "Zain",
       "email": "Zain123@gmail.com",
       "password": "Zain123@",
-      "confirmPassword": "Zain123@"
+      "id": "5f40"
     },
     {
-      "id": "882f",
       "name": "Nadeem",
       "email": "amirshakeeliub@gmail.com",
       "password": "Amir123@",
-      "confirmPassword": "Amir123@"
+      "id": "882f"
+    },
+    {
+      "name": "Anwaar Alam",
+      "email": "anwar123@gmail.com",
+      "password": "Anwar123@",
+      "id": "2ba4"
     }
   ]
 }

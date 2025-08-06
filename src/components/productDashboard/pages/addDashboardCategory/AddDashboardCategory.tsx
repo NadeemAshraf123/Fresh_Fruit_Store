@@ -1,34 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./AddDashboardCategory.module.css";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
+import { FaEdit, FaTrash, FaPlus, FaSearch } from "react-icons/fa";
 
 const AddProductCategory = () => {
-  const [productCategoryName, setProductCategoryName] = React.useState("");
-  const [productImage, setProductImage] = React.useState<File | null>(null);
-  const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
-  const [isCategorized, setIsCategorized] = React.useState<boolean | null>(
-    null
-  );
-  const [categoryList, setCategoryList] = React.useState<any[]>([]);
-  const [editingCategory, setEditingCategory] = React.useState<any | null>(
-    null
-  );
-  const [isEditing, setIsEditing] = React.useState(false);
+  const [productCategoryName, setProductCategoryName] = useState("");
+  const [productImage, setProductImage] = useState<File | null>(null);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isCategorized, setIsCategorized] = useState<boolean>(true);
+  const [categoryList, setCategoryList] = useState<any[]>([]);
+  const [editingCategory, setEditingCategory] = useState<any | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [searchCategoryName, setSearchCategoryName] = useState("");
+  const [searchActiveStatus, setSearchActiveStatus] = useState("");
+  const [showAddModal, setShowAddModal] = useState(false);
   const navigate = useNavigate();
-  const [searchCategoryName, setSearchCategoryName] =
-    React.useState<string>("");
-  const [searchActiveStatus, setSearchActiveStatus] =
-    React.useState<string>("");
 
-    const [showAddModal , setShowAddModal] = React.useState(false);
-
-
-  React.useEffect(() => {
+  useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("categoryname") || "[]");
     setCategoryList(stored);
-    console.log("extract by system useefect", stored);
   }, []);
 
   const handleCategorySubmit = (e: React.FormEvent) => {
@@ -37,7 +29,6 @@ const AddProductCategory = () => {
 
     if (productImage) {
       const reader = new FileReader();
-
       reader.onloadend = () => {
         const newCategory = {
           id: uuidv4(),
@@ -47,22 +38,29 @@ const AddProductCategory = () => {
         };
 
         const existingCategories = [...categoryList, newCategory];
-        localStorage.setItem(
-          "categoryname",
-          JSON.stringify(existingCategories)
-        );
+        localStorage.setItem("categoryname", JSON.stringify(existingCategories));
         setCategoryList(existingCategories);
-
         toast.success("Category Added");
         setShowAddModal(false);
-        setProductCategoryName("");
-        setProductImage(null);
-        setIsCategorized(false);
-        setErrors({});
+        resetForm();
       };
-
       reader.readAsDataURL(productImage);
     }
+  };
+
+  const resetForm = () => {
+    setProductCategoryName("");
+    setProductImage(null);
+    setIsCategorized(true);
+    setErrors({});
+  };
+
+  const validate = () => {
+    const newErrors: { [key: string]: string } = {};
+    if (!productCategoryName.trim()) newErrors.productCategoryName = "Category name is required";
+    if (!productImage) newErrors.productImage = "Category image is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSaveEditedCategory = () => {
@@ -76,180 +74,62 @@ const AddProductCategory = () => {
     setEditingCategory(null);
   };
 
-  const validate = () => {
-    const newErrors: { [key: string]: string } = {};
-
-    if (!productCategoryName.trim()) {
-      newErrors.productCategoryName = "Category name is required";
-    }
-    if (!productImage) {
-      newErrors.productImage = "Category image is required";
-    }
-    if (isCategorized === null) {
-      newErrors.isCategorized = "Please select Yes or No";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const BackToHome = () => {
-    navigate("/");
+  const deleteCategory = (id: string) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this category?");
+    if (!confirmDelete) return;
+    
+    const filtered = categoryList.filter((cat) => cat.id !== id);
+    localStorage.setItem("categoryname", JSON.stringify(filtered));
+    setCategoryList(filtered);
+    toast.success("Category deleted!");
   };
 
   const filteredCategories = categoryList.filter((item) => {
-    const nameMatch = item.name
-      .toLowerCase()
-      .includes(searchCategoryName.toLowerCase());
-
-    const statusMatch = (() => {
-      const normalized = searchActiveStatus.trim().toLowerCase();
-
-      if (normalized === "") return true; 
-      if (normalized === "true") return item.isActive === true;
-      if (normalized === "false") return item.isActive === false;
-      return false;
-    })();
-
+    const nameMatch = item.name.toLowerCase().includes(searchCategoryName.toLowerCase());
+    const statusMatch = searchActiveStatus === "" || 
+      (searchActiveStatus === "true" && item.isActive) || 
+      (searchActiveStatus === "false" && !item.isActive);
     return nameMatch && statusMatch;
   });
 
-  console.log("normalized", searchActiveStatus);
-
-  const HandleResetFunctionality = () => {
-
-        if (!setSearchActiveStatus && !setSearchCategoryName) return ;
-        
-    toast.success("search feilds are reset");
-    setSearchActiveStatus("");
+  const handleResetSearch = () => {
     setSearchCategoryName("");
-
-  }
+    setSearchActiveStatus("");
+    toast.success("Search filters reset");
+  };
 
   return (
-    <>
-      <h1 className={styles.categorypageheading}>Product Category Page</h1>
-
-      {showAddModal && (
-        <div className={styles.modalOverlay} >
-            <div className={styles.modalContent}>
-                <button onClick={() => {setShowAddModal(false)}} className={styles.closebutton}>x</button>   
-             <form onSubmit={handleCategorySubmit} className={styles.formContainer}>
-        <div className={styles.formGroup}>
-          <label className={styles.label}>
-            Product Category Name:
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Category Management</h2>
+        <div className={styles.actions}>
+          <div className={styles.searchContainer}>
+            <FaSearch className={styles.searchIcon} />
             <input
               type="text"
-              value={productCategoryName}
-              onChange={(e) => setProductCategoryName(e.target.value)}
-              className={styles.input}
+              placeholder="Search categories..."
+              value={searchCategoryName}
+              onChange={(e) => setSearchCategoryName(e.target.value)}
+              className={styles.searchInput}
             />
-          </label>
-          {errors.productCategoryName && (
-            <div className={styles.errorText}>{errors.productCategoryName}</div>
-          )}
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label}>
-            Product Image:
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                setProductImage(e.target.files ? e.target.files[0] : null)
-              }
-              className={styles.input}
-            />
-          </label>
-          {errors.productImage && (
-            <div className={styles.errorText}>{errors.productImage}</div>
-          )}
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Is Active:</label>
-          <div className={styles.radioGroup}>
-            <label>
-              <input
-                type="radio"
-                name="isCategorized"
-                value="true"
-                checked={isCategorized === true}
-                onChange={() => setIsCategorized(true)}
-              />
-              Yes
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="isCategorized"
-                value="false"
-                checked={isCategorized === false}
-                onChange={() => setIsCategorized(false)}
-              />
-              No
-            </label>
           </div>
-          {errors.isCategorized && (
-            <div className={styles.errorText}>{errors.isCategorized}</div>
-          )}
+          <button 
+            onClick={() => setShowAddModal(true)} 
+            className={styles.addButton}
+          >
+            <FaPlus /> Add Category
+          </button>
         </div>
-
-        <button type="submit" className={styles.button}>
-          Add
-        </button>
-        <button type="button" onClick={BackToHome} className={styles.button}>
-          Home
-        </button>
-             </form>
-
-        </div>
-         </div>
-     )}
-
-      <h2 className={styles.categorypageheading}>Added Categories</h2>
-
-      <div className={styles.categorypagesearchbars}>
-        <input
-          value={searchCategoryName}
-          onChange={(e) => setSearchCategoryName(e.target.value)}
-          className={styles.categorypagesearchinputfields}
-          type="search"
-          placeholder="search by category Name..."
-        />
-
-        <label className={styles.SearchActiveStatusLabel}>Is Active:
-        <select
-          value={searchActiveStatus}
-          onChange={(e) => setSearchActiveStatus(e.target.value)}
-        >
-          <option value="">All</option>
-          <option value="true">Yes</option>
-          <option value="false">No</option>
-        </select>
-        </label>
-
-            <button className={styles.resetbutton} onClick={HandleResetFunctionality}> Reset </button>
       </div>
 
-
-<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-  <h2 className={styles.categorypageheading}>Added Categories</h2>
-  <button onClick={() => setShowAddModal(true)} className={styles.button}>
-    Add Category
-  </button>
-</div>
-
-
-      {filteredCategories.length > 0 ? (
-        <table className={styles.table}>
+      <div className={styles.tableContainer}>
+        <table className={styles.categoryTable}>
           <thead>
             <tr>
               <th>#</th>
               <th>Category Name</th>
               <th>Image</th>
-              <th>Is Active</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -259,166 +139,234 @@ const AddProductCategory = () => {
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "8px",
-                    }}
-                  />
+                  {item.image ? (
+                    <img 
+                      src={item.image} 
+                      alt={item.name}
+                      className={styles.categoryImage}
+                    />
+                  ) : (
+                    <span className={styles.noImage}>No image</span>
+                  )}
                 </td>
-                <td>{item.isActive ? "Yes" : "No"}</td>
                 <td>
-                  <button
-                    style={{ marginRight: "8px" }}
-                    className={styles.categoryeditbutton}
-                    onClick={() => {
-                      setEditingCategory(item);
-                      setIsEditing(true);
-                    }}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    className={styles.categoryeditbutton}
-                    onClick={() => {
-                      const filtered = categoryList.filter(
-                        (cat) => cat.id !== item.id
-                      );
-                      localStorage.setItem(
-                        "categoryname",
-                        JSON.stringify(filtered)
-                      );
-                      setCategoryList(filtered);
-                      toast.warn("Category deleted!");
-                    }}
-                  >
-                    Delete
-                  </button>
+                  <span className={item.isActive ? styles.activeYes : styles.activeNo}>
+                    {item.isActive ? "Active" : "Inactive"}
+                  </span>
+                </td>
+                <td>
+                  <div className={styles.actionButtons}>
+                    <button
+                      onClick={() => {
+                        setEditingCategory(item);
+                        setIsEditing(true);
+                      }}
+                      className={styles.editButton}
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={() => deleteCategory(item.id)}
+                      className={styles.deleteButton}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-      ) : (
-        <h2 style={{ padding: "1rem", textAlign: "center" }}>
-          No categories added yet.
-        </h2>
+      </div>
+
+      {filteredCategories.length === 0 && (
+        <div className={styles.noCategories}>
+          No categories found. Try adjusting your search or add a new category.
+        </div>
       )}
 
-      {isEditing && editingCategory && (
-        <div className={styles.modalBackdrop}>
+      {/* Add Category Modal */}
+      {showAddModal && (
+        <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
-            <h3>Edit Category</h3>
-            <label className={styles.label}>
-              Category Name:
-              <input
-                type="text"
-                value={editingCategory.name}
-                onChange={(e) =>
-                  setEditingCategory({
-                    ...editingCategory,
-                    name: e.target.value,
-                  })
-                }
-                className={styles.modalinput}
-              />
-            </label>
-            {/* <select
-        value={editingCategory.category}
-        onChange={(e) =>
-          setEditingCategory({ ...editingCategory, category: e.target.value })
-        }
-        className={styles.modalinput}
-      >
-        <option value="">Select Category</option>
-        <option value="fruit">Fruit</option>
-        <option value="vegetable">Vegetable</option>
-      </select> */}
-
-            <img
-              src={editingCategory.image}
-              alt="Preview"
-              style={{
-                width: "60px",
-                height: "60px",
-                borderRadius: "8px",
-                marginBottom: "0.5rem",
-              }}
-            />
-
-            <label className={styles.label}>
-              Category Image:
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setEditingCategory({
-                        ...editingCategory,
-                        image: reader.result,
-                      });
-                    };
-                    reader.readAsDataURL(file);
-                  }
-                }}
-                className={styles.modalinput}
-              />
-            </label>
-
-            <label className={styles.label}>Is Active:</label>
-            <div className={styles.radioGroup}>
-              <label>
+            <button 
+              onClick={() => setShowAddModal(false)} 
+              className={styles.closeButton}
+            >
+              ×
+            </button>
+            <h3>Add New Category</h3>
+            <form onSubmit={handleCategorySubmit} className={styles.form}>
+              <div className={styles.formGroup}>
+                <label>Category Name</label>
                 <input
-                  type="radio"
-                  name="isActive"
-                  checked={editingCategory.isActive === true}
-                  onChange={() =>
-                    setEditingCategory({ ...editingCategory, isActive: true })
+                  type="text"
+                  value={productCategoryName}
+                  onChange={(e) => setProductCategoryName(e.target.value)}
+                />
+                {errors.productCategoryName && (
+                  <span className={styles.error}>{errors.productCategoryName}</span>
+                )}
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setProductImage(e.target.files ? e.target.files[0] : null)
                   }
                 />
-                Yes
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="isActive"
-                  checked={editingCategory.isActive === false}
-                  onChange={() =>
-                    setEditingCategory({ ...editingCategory, isActive: false })
-                  }
-                />
-                No
-              </label>
-            </div>
+                {errors.productImage && (
+                  <span className={styles.error}>{errors.productImage}</span>
+                )}
+              </div>
 
-            <div className={styles.modalButton}>
-              <button
-                onClick={handleSaveEditedCategory}
-                className={styles.modalsavebutton}
-              >
-                Save
-              </button>
-              <button
-                onClick={() => {
-                  setIsEditing(false);
-                  setEditingCategory(null);
-                }}
-                className={styles.modalcancelbutton}
-              >
-                Cancel
-              </button>
-            </div>
+              <div className={styles.formGroup}>
+                <label>Status</label>
+                <div className={styles.radioGroup}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="isActive"
+                      checked={isCategorized}
+                      onChange={() => setIsCategorized(true)}
+                    />
+                    Active
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="isActive"
+                      checked={!isCategorized}
+                      onChange={() => setIsCategorized(false)}
+                    />
+                    Inactive
+                  </label>
+                </div>
+              </div>
+
+              <div className={styles.formActions}>
+                <button type="submit" className={styles.submitButton}>
+                  Add Category
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className={styles.cancelButton}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
-    </>
+
+      {/* Edit Category Modal */}
+      {isEditing && editingCategory && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <button 
+              onClick={() => setIsEditing(false)} 
+              className={styles.closeButton}
+            >
+              ×
+            </button>
+            <h3>Edit Category</h3>
+            <form>
+              <div className={styles.formGroup}>
+                <label>Category Name</label>
+                <input
+                  type="text"
+                  value={editingCategory.name}
+                  onChange={(e) =>
+                    setEditingCategory({
+                      ...editingCategory,
+                      name: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Image</label>
+                {editingCategory.image && (
+                  <img
+                    src={editingCategory.image}
+                    alt="Preview"
+                    className={styles.previewImage}
+                  />
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setEditingCategory({
+                          ...editingCategory,
+                          image: reader.result,
+                        });
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Status</label>
+                <div className={styles.radioGroup}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="editIsActive"
+                      checked={editingCategory.isActive}
+                      onChange={() =>
+                        setEditingCategory({ ...editingCategory, isActive: true })
+                      }
+                    />
+                    Active
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="editIsActive"
+                      checked={!editingCategory.isActive}
+                      onChange={() =>
+                        setEditingCategory({ ...editingCategory, isActive: false })
+                      }
+                    />
+                    Inactive
+                  </label>
+                </div>
+              </div>
+
+              <div className={styles.formActions}>
+                <button
+                  type="button"
+                  onClick={handleSaveEditedCategory}
+                  className={styles.submitButton}
+                >
+                  Save Changes
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  className={styles.cancelButton}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

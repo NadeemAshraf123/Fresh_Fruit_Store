@@ -16,8 +16,8 @@ import ProtectedRoute from './components/protectroutes/ProtectedRoutes';
 import WrappeUp from './components/productpage/WrappeUp';
 
 // Dashboard Section imports 
-import DashboardShell from './components/productDashboard/layout/DashboardShell';
-import ProductDashboard from './components/productDashboard/productdashboard/ProductDasgboard';
+import MainDashboard from './components/productDashboard/mainLayout/MainDashboard';
+// import ProductDashboard from './components/productDashboard/productdashboard/ProductDasgboard';
 import AuthenticatedUsers from './components/productDashboard/adminSection/AuthenticatedUsers';
 import AddDashboardProduct from './components/productDashboard/pages/addDashboardProduct/AddDashboardProduct';
 import AddDashboardCategory from './components/productDashboard/pages/addDashboardCategory/AddDashboardCategory';
@@ -70,8 +70,8 @@ export default function App() {
           {/* Dashboard Routes - Protected  */}
 
           <Route element={<ProtectedRoute isAllowed={isAuthenticated} />}>
-            <Route path="/dashboard" element={<DashboardShell />}>
-              <Route index element={<ProductDashboard />} />
+            <Route path="/dashboard" element={ <MainDashboard /> }>
+              {/* <Route index element={<ProductDashboard />} /> */}
               <Route path='authenticatedUsers' element={ <AuthenticatedUsers /> }  /> 
               <Route path="adddashboardproduct" element={<AddDashboardProduct />   } />
               <Route path="adddashboardcategory" element={<AddDashboardCategory /> } />
