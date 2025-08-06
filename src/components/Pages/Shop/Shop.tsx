@@ -35,7 +35,6 @@ const Shop = () => {
     setActiveCategory(category.toLowerCase());
   };
 
-  // Corrected filtering logic
   const currentProducts = activeCategory === "all" 
     ? products 
     : products.filter(product => {

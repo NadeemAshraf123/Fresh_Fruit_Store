@@ -177,9 +177,20 @@
   justify-content: center;
 }
 
+<<<<<<< HEAD
 .editButton:hover {
   color: #3498db;
   background-color: rgba(52, 152, 219, 0.1);
+=======
+
+.Allbuttonsgeneralstyling {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  border-radius: 6px;
+  color: table;
+  padding: 8px 8px;
+>>>>>>> 83ddf433fbcea9cb80db78ba5560a77600802d6f
 }
 
 .deleteButton:hover {
@@ -198,7 +209,35 @@
   font-size: 15px;
 }
 
+<<<<<<< HEAD
 /* Modal Styles */
+=======
+.table {
+  width: 90%;
+  margin: 2rem auto;
+  border-collapse: collapse;
+  background-color: #fff;
+  border: 1px solid #ccc;
+
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #4CAF50;
+  background-color: rgb(189, 185, 185);
+  color: white;
+
+}
+
+
+/* modal */ 
+>>>>>>> 83ddf433fbcea9cb80db78ba5560a77600802d6f
 .modalOverlay {
   position: fixed;
   top: 0;
