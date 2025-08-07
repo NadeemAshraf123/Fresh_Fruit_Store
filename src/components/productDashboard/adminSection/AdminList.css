@@ -2,31 +2,26 @@
 /* Main Container */
 .admin-table-container {
   background: #F3F4FF;
-  padding: 0px 0px 0px 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  margin-top: -5px;
-  margin-left: 0;
-  min-height: 100vh;
-  /* width: 106%; */
   width: 100%;
-  padding: 20px; 
+  height: auto;
+  padding: 10px 20px 0px 20px ; 
   margin: 0 auto; 
   box-sizing: border-box;
-  overflow-x: hidden;
+  overflow: hidden;
   
 }
 
 /* Table Heading */
-.Admin-List-Heading {
+/* .Admin-List-Heading {
   font-size: 1.5rem;
   color: #333;
-  margin-bottom: 10px;
-}
+  padding-bottom: 10px;
+} */
 
 /* Table Styling */
 .admin-table {
-  width: 98%;
+  width: 100%;
   border-collapse: collapse;
   background: white;
   border-radius: 8px;
@@ -35,18 +30,24 @@
 }
 
 .admin-table th {
-  background-color: #FFFFFF;
+  background-color: #f8f9fa;
   padding: 14px 16px;
   text-align: left;
   font-weight: 600;
   color: #555;
-  /* border-bottom: 2px solid #eee; */
+  color: #5D649F;
 }
 
 .admin-table td {
   padding: 14px 16px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f0f0f0;
   vertical-align: middle;
+}
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+.admin-table tr:hover {
+  background-color: #f9f9f9;
 }
 
 /* User Name Cell */
@@ -79,17 +80,23 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.7rem;
   color: #666;
   transition: color 0.2s;
-  padding: 5px;
+  /* padding: 5px; */
+   width: 25px;
+  height: 25px;
+  text-align: center;
+  border-radius: 50%;
 }
 
 .edit-btn:hover {
   color: #3498db;
+  background-color:  rgb(236, 228, 228); 
 }
 
 .delete-btn:hover {
+  background-color:  rgb(236, 228, 228); 
   color: #e74c3c;
 }
 
@@ -188,45 +195,3 @@ p {
   margin-bottom: 10px;
 }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-/* @media (max-width: 768px) {
-  .admin-table-container {
-    padding: 10px;
-  }
-
-  .admin-table th,
-  .admin-table td {
-    padding: 8px 10px;
-    font-size: 0.9rem;
-  }
-
-  .profile-placeholder {
-    width: 28px;
-    height: 28px;
-    font-size: 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .Admin-List-Heading {
-    font-size: 1.2rem;
-    text-align: center;
-  }
-
-  .action-buttons {
-    flex-direction: column;
-    gap: 5px;
-  }
-} */
-

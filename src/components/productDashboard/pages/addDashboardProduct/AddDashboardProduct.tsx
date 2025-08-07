@@ -144,7 +144,7 @@ const AddProducts = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Product Management</h2>
+        {/* <h2 className={styles.title}>Product Management</h2> */}
         <div className={styles.actions}>
           <div className={styles.searchContainer}>
             <FaSearch className={styles.searchIcon} />
@@ -243,6 +243,9 @@ const AddProducts = () => {
           No products found. Try adjusting your search or add a new product.
         </div>
       )}
+
+{/* ==========/////////////===============////////============//////////// */}
+
 
       {showAddModal && (
         <div className={styles.modalOverlay}>
@@ -365,6 +368,24 @@ const AddProducts = () => {
         </div>
       )}
 
+
+
+{/* =========////////////////====================== */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       {isEditing && editingProduct && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
@@ -410,9 +431,9 @@ const AddProducts = () => {
                     });
                   }}
                 >
-                  <option value="" disabled>Select Category</option>
+                  <option value="" disabled   className={styles.categoriesoptionSelection} style={{width: "50px"}}>Select Category</option>
                   {usersCategories.map((category) => (
-                    <option key={category.id} value={category.id}>
+                    <option key={category.id} value={category.id}  style={{width: "50px"}}>
                       {category.name}
                     </option>
                   ))}

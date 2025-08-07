@@ -101,7 +101,7 @@ const AddProductCategory = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Category Management</h2>
+        {/* <h2 className={styles.title}>Category Management</h2> */}
         <div className={styles.actions}>
           <div className={styles.searchContainer}>
             <FaSearch className={styles.searchIcon} />
@@ -184,6 +184,9 @@ const AddProductCategory = () => {
           No categories found. Try adjusting your search or add a new category.
         </div>
       )}
+
+
+      
 
       {/* Add Category Modal */}
       {showAddModal && (
@@ -352,7 +355,7 @@ const AddProductCategory = () => {
                   onClick={handleSaveEditedCategory}
                   className={styles.submitButton}
                 >
-                  Save Changes
+                  Save
                 </button>
                 <button
                   type="button"

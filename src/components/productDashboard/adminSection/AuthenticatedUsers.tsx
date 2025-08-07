@@ -74,8 +74,8 @@ const AuthenticatedUsers = () => {
   if (loading) return <p>Loading admins data...</p>;
 
   return (
-    <div className="admin-table-container"     >        
-      <h2 className="Admin-List-Heading">Admin List</h2>
+    <div className="admin-table-container">        
+      {/* <h2 className="Admin-List-Heading">Admin List</h2> */}
       <table className="admin-table">
         <thead>
           <tr>

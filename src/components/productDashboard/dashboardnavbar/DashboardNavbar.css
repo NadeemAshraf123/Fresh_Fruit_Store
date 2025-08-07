@@ -92,10 +92,13 @@
 .notifications {
     position: relative;
     color: #666;
-    font-size: 1.0rem;
+    font-size: 0.3rem;
     cursor: pointer;
     padding: 0.5rem;
     border-radius: 8px;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
     transition: all 0.2s ease;
 }
 
@@ -111,8 +114,8 @@
     background: linear-gradient(135deg, #FF6B6B, #FF5252);
     color: white;
     border-radius: 50%;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;   
     font-size: 0.65rem;
     font-weight: 600;
     display: flex;
@@ -137,17 +140,17 @@
     background: #f8f9fa;
 }
 .user-icon {
-    font-size: 2.2rem;
+    font-size: 0.5rem;
     color: #ffffff;
     background: linear-gradient(135deg, #6C5CE7, #5A4FCF);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 3px 8px rgba(108, 92, 231, 0.25);
-    border: 2px solid #ffffff;
+    border: 1px solid #ffffff;
     /* border: 2px solid red;  */
 
 }
@@ -159,24 +162,24 @@
 
 .user-name {
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.75rem;
     color: #2d3748;
     line-height: 1.2;
 }
 
 .user-role {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: #718096;
     font-weight: 400;
     line-height: 1.2;
 }
-
-@media (max-width: 576px) {
-    .search-bar {
-        display: none;
-    }
-
+.page-heading {
+  font-size: 20px;
+  font-weight: 600;
+  margin-left: 15px;
 }
+
+
 
 @media (max-width: 340px) {
 
@@ -220,19 +223,37 @@
     font-weight: 400;
     line-height: 1.2;
 }
+}
 
 
+@media (max-width: 576px) {
+    .search-bar {
+        display: none;
+    }
 
 }
 
+
+
 @media (min-width: 577px) and  (max-width: 991px) {
 
+.notifications {
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.badge {
+    font-size: 0.5rem;
+    right: 4px;
+}
 }
 
 @media (min-width: 992px) {
   .navbar {
     padding: 0rem 3rem;
   }
+
+
 
   .search-bar input {
     width: 200px;
@@ -242,13 +263,25 @@
     font-size: 1.6rem;
   }
 
+  .navbar-right {
+    gap: 4rem;
+}
+
   .notifications {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+
   }
 
+.badge {
+    right: -6px;
+    width: 14px;
+    height: 14px;   
+}
+
   .user-icon {
-    width: 50px;
-    height: 50px;
-    font-size: 2.5rem;
+    width: 35px;
+    height: 35px;
+    font-size: 1.5rem;
   }
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faGear, faSearch, faUserCircle,faBars  } from '@fortawesome/free-solid-svg-icons';
 import './DashboardNavbar.css';
@@ -18,6 +19,18 @@ const DashboardNavbar = ( {toggleSidebar } ) => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
+    const location = useLocation();
+    const currentPath = location.pathname;
+
+    let heading = '';
+    if (currentPath === '/dashboard/authenticatedUsers') {
+        heading = 'Admin Dashboard';
+    } else if (currentPath === '/dashboard/adddashboardcategory') {
+        heading = 'Categories';
+    } else if (currentPath === '/dashboard/adddashboardproduct') {
+        heading = 'Products';
+    };
+
 
     return(
 
@@ -29,12 +42,17 @@ const DashboardNavbar = ( {toggleSidebar } ) => {
                 <FontAwesomeIcon icon={faBars} />
             </button>
         )}
-        {/* <button className={`hamburger ${isSidebarOpen  ? 'hidden' : ''}`} onClick={toggleSidebar}> */}
 
-            <div className='search-bar'>
+
+        {heading ? (
+            <h2 className='page-heading'>{heading}</h2>
+        ) : (
+            
+             <div className='search-bar'>
                 <FontAwesomeIcon icon={faSearch} className='search-icon' />
                 <input type='text' placeholder='Search...' />
             </div>
+        )}
     </div>
 
     <div className='navbar-right'>
