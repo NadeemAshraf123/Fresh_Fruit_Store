@@ -373,19 +373,6 @@ const AddProducts = () => {
 {/* =========////////////////====================== */}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
       {isEditing && editingProduct && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>

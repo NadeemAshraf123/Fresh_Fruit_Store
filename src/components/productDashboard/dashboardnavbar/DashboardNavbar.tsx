@@ -12,7 +12,7 @@ const DashboardNavbar = ( {toggleSidebar } ) => {
 
     useEffect(() => {
         const checkMobile = () => {
-            setIsMobile(window.innerWidth < 992);
+            setIsMobile(window.innerWidth < 576);
         };
         checkMobile();
         window.addEventListener('resize', checkMobile);

@@ -3,31 +3,26 @@
 .admin-table-container {
   background: #F3F4FF;
   border-radius: 8px;
-  width: 100%;
   height: auto;
   padding: 10px 20px 0px 20px ; 
   margin: 0 auto; 
   box-sizing: border-box;
-  overflow: hidden;
-  
+  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
 }
 
-/* Table Heading */
-/* .Admin-List-Heading {
-  font-size: 1.5rem;
-  color: #333;
-  padding-bottom: 10px;
-} */
 
-/* Table Styling */
 .admin-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
   border-radius: 8px;
   overflow: hidden;
-  min-width: 800px;
+  table-layout: auto;
 }
+
+
 
 .admin-table th {
   background-color: #f8f9fa;
@@ -148,8 +143,6 @@
   background-color: #eee;
   color: #333;
 }
-
-/* Loading State */
 p {
   padding: 20px;
   color: #666;
@@ -159,6 +152,7 @@ p {
   .admin-table-container {
     padding: 10px;
     margin: 0;
+    overflow-x: auto;
   }
   .Admin-List-Heading {
     font-size: 1.2rem;
@@ -166,7 +160,7 @@ p {
   }
   .admin-table {
     width: 100%;
-    min-width: unset;
+    /* min-width: unset; */
     font-size: 0.875rem;
   }
   .admin-table th,
@@ -194,4 +188,120 @@ p {
   width: 100%;
   margin-bottom: 10px;
 }
+}
+
+
+
+@media (min-width: 577px) and (max-width: 991px) {
+  .admin-table-container {
+    padding: 15px 25px;
+  }
+
+  .admin-table {
+    font-size: 0.9rem;
+    min-width: unset;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 12px 14px;
+    font-size: 0.8rem;
+  }
+
+  .user-name-cell {
+    gap: 12px;
+  }
+
+  .profile-placeholder {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .action-buttons {
+    gap: 8px;
+    flex-direction: row;
+  }
+
+  .edit-btn, .delete-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+
+  .edit-popup {
+    width: 80%;
+    padding: 20px;
+  }
+
+  .edit-popup input {
+    padding: 9px;
+  }
+
+  .edit-popup button {
+    width: auto;
+    margin-bottom: 0;
+  }
+}
+
+
+@media (min-width: 992px) {
+  .admin-table-container {
+    padding: 20px 40px;
+    /* max-width: 1200px; */
+    width: 100%;
+    /* max-width: 100%; */
+    max-width: calc(100vw - 40px);
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
+  .admin-table {
+    font-size: 1rem;
+    width: 100%;
+    /* max-width: none; */
+    table-layout: auto;
+    min-width: 600px;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 16px 20px;
+    font-size: 0.95rem;
+  }
+
+  .user-name-cell {
+    gap: 18px;
+  }
+
+  .profile-placeholder {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .action-buttons {
+    gap: 12px;
+    flex-direction: row;
+  }
+
+  .edit-btn, .delete-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.85rem;
+  }
+
+  .edit-popup {
+    width: 450px;
+    padding: 30px;
+  }
+
+  .edit-popup input {
+    padding: 12px;
+  }
+
+  .edit-popup button {
+    padding: 10px 18px;
+    margin-right: 12px;
+  }
 }

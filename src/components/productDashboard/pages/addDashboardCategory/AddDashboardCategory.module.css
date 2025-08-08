@@ -46,7 +46,7 @@
 
 .searchInput {
   padding: 8px 15px 8px 35px;
-  border: 1px solid #ddd;
+  border: 1px solid white;
   border-radius: 6px;
   width: 250px;
   font-size: 14px;
@@ -625,6 +625,12 @@
 } */
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+
+
+  .container {
+  /* padding: 10px 20px 0px 20px; */
+  padding: 0px;
+}
   .header {
     flex-direction: column;
     align-items: flex-start;
@@ -636,6 +642,7 @@
     align-items: flex-start;
     /* flex-wrap: wrap; */
     gap: 10px;
+    /* background-color: #27ae60; */
   }
 
   .searchContainer {
